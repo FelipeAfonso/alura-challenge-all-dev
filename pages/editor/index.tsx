@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Paper } from '@mui/material';
 import { useRecoilState } from 'recoil';
 import { darkModeState } from 'context/state/layout.atom';
+import { EditorContainer } from 'components/EditorContainer';
 
 const Editor: NextPage = () => {
   useLayout('default');
@@ -10,10 +11,10 @@ const Editor: NextPage = () => {
   return (
     <>
       <Grid item xs={12} lg={6}>
-        <Button onClick={() => setDarkMode(!darkMode)}>Dark Mode</Button>
+        <EditorContainer color="#ff0000" editable />
       </Grid>
       <Grid item xs={12} lg={3}>
-        Teste222
+        <Button onClick={() => setDarkMode(!darkMode)}>Dark Mode</Button>
       </Grid>
     </>
   );

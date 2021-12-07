@@ -28,7 +28,7 @@ export const Header = () => {
     <AppBar
       position="static"
       color="transparent"
-      sx={{ boxShadow: 'none', px: 4, pt: 6, pb: 1 }}
+      sx={{ boxShadow: 'none', px: 4, pt: 6, pb: 4 }}
     >
       <Grid container sx={{ display: { lg: 'flex', xs: 'none' } }}>
         <Grid

@@ -22,7 +22,11 @@ export const Layout: FC = ({ children }) => {
   const defaultLayout = (
     <>
       <Header />
-      <Grid sx={{ display: { lg: 'flex', xs: 'none' } }} container>
+      <Grid
+        sx={{ display: { lg: 'flex', xs: 'none' } }}
+        spacing={8.5}
+        container
+      >
         <Grid item lg={3}>
           <SidebarMenuContent />
         </Grid>
