@@ -52,5 +52,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            backgroundColor: '#5081FB29 !important',
+          },
+        },
+      },
+    },
   },
 });

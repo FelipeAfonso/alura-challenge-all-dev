@@ -2,16 +2,19 @@ import { Avatar, IconButton, List, ListItem, Typography } from '@mui/material';
 import { Community } from 'assets/icons/Community';
 import { Box } from '@mui/system';
 import { Dev } from 'assets/icons/Dev';
+import { useRouter } from 'next/router';
+import { AluraIconButton } from 'components/AluraIconButton';
 
 export const SidebarMenuContent = () => {
+  const router = useRouter();
   return (
-    <List>
+    <List sx={{ m: 2 }}>
       <Box
         sx={{ display: { lg: 'none', xs: 'flex' } }}
         alignItems="center"
-        gap={2}
-        my={2}
         mx={2}
+        my={2}
+        gap={2}
       >
         <Avatar />
         <Typography variant="body1" color="textPrimary">
@@ -26,33 +29,31 @@ export const SidebarMenuContent = () => {
         MENU
       </Typography>
       <ListItem>
-        <IconButton
-          sx={{
-            bgcolor: 'primary.main',
-            borderRadius: 3,
-            p: 1.3,
-            '&:hover': { bgcolor: 'primary.light' },
-          }}
+        <AluraIconButton
+          disabled={router.pathname === '/editor'}
           color="primary"
+          onClick={() => router.push('/editor')}
         >
-          <Dev fill="#fff" fontSize="small" />
-        </IconButton>
+          <Dev
+            fill={router.pathname === '/editor' ? '#a6a2a2' : '#fff'}
+            fontSize="small"
+          />
+        </AluraIconButton>
         <Typography color="textPrimary" sx={{ mx: 2 }}>
           Editor
         </Typography>
       </ListItem>
       <ListItem>
-        <IconButton
-          sx={{
-            bgcolor: 'primary.main',
-            borderRadius: 3,
-            p: 1.3,
-            '&:hover': { bgcolor: 'primary.light' },
-          }}
+        <AluraIconButton
+          disabled={router.pathname === '/comunidade'}
           color="primary"
+          onClick={() => router.push('/comunidade')}
         >
-          <Community fill="#fff" fontSize="small" />
-        </IconButton>
+          <Community
+            fill={router.pathname === '/comunidade' ? '#a6a2a2' : '#fff'}
+            fontSize="small"
+          />
+        </AluraIconButton>
         <Typography color="textPrimary" sx={{ mx: 2 }}>
           Comunidade
         </Typography>

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import { Grid } from '@mui/material';
 
-const Community: NextPage = () => {
+const Editor: NextPage = () => {
   useLayout('default');
   return (
     <>
@@ -16,4 +16,4 @@ const Community: NextPage = () => {
   );
 };
 
-export default Community;
+export default Editor;
