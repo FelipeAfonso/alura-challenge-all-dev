@@ -11,8 +11,11 @@ import { Hamburger } from 'assets/icons/Hamburger';
 import { Search } from 'assets/icons/Search';
 import Image from 'next/image';
 import logoDark from 'public/logo_dark.svg';
+import { useState } from 'react';
+import { SearchDialog } from './SearchDialog';
 
 export const Header = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <AppBar
       position="static"
@@ -31,7 +34,12 @@ export const Header = () => {
           <Image src={logoDark} alt="All Dev logo" />
         </Grid>
         <Grid item lg={6}>
-          <TextField label="Busque por algo" variant="filled" fullWidth />
+          <TextField
+            label="Busque por algo"
+            variant="filled"
+            fullWidth
+            onClick={() => setSearchOpen(true)}
+          />
         </Grid>
         <Grid
           item
@@ -57,15 +65,20 @@ export const Header = () => {
           sx={{ flex: 1, display: { xs: 'none', sm: 'block' } }}
           label="Busque por algo"
           variant="filled"
+          onClick={() => setSearchOpen(true)}
           fullWidth
         />
-        <IconButton sx={{ display: { xs: 'block', sm: 'none' } }}>
+        <IconButton
+          sx={{ display: { xs: 'block', sm: 'none' } }}
+          onClick={() => setSearchOpen(true)}
+        >
           <Search fill="#fff" />
         </IconButton>
         <IconButton>
           <Hamburger fill="#fff" />
         </IconButton>
       </Box>
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </AppBar>
   );
 };
