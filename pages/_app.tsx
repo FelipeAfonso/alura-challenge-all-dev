@@ -3,12 +3,15 @@ import type { AppProps } from 'next/app';
 import { theme } from 'config/theme';
 import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from '@mui/material';
+import { BackgroundProvider } from 'components/Layout/BackgroundProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <BackgroundProvider>
+          <Component {...pageProps} />
+        </BackgroundProvider>
       </ThemeProvider>
     </RecoilRoot>
   );
