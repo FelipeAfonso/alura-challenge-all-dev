@@ -1,12 +1,13 @@
 import { Dialog, TextField } from '@mui/material';
-import { FC, useLayoutEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 export const SearchDialog: FC<{
   onClose: () => void;
   open: boolean;
 }> = ({ open, onClose }) => {
   const textFieldRef = useRef<any>(null);
-  useLayoutEffect(() => {
+
+  useEffect(() => {
     setTimeout(() => {
       if (open) textFieldRef.current?.focus();
       console.log('🚀 ~ open', open);

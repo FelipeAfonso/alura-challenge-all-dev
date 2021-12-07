@@ -19,6 +19,18 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: 'Inter, Roboto, arial',
+    caption: {
+      fontSize: 12,
+      lineHeight: '18px',
+    },
+    body1: {
+      fontSize: 16,
+      lineHeight: '24px',
+    },
+    subtitle1: {
+      fontSize: 21,
+      lineHeight: '32px',
+    },
   },
   components: {
     MuiFilledInput: {

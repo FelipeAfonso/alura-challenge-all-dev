@@ -1,6 +1,7 @@
 import {
   AppBar,
   Avatar,
+  Drawer,
   Grid,
   IconButton,
   TextField,
@@ -13,9 +14,11 @@ import Image from 'next/image';
 import logoDark from 'public/logo_dark.svg';
 import { useState } from 'react';
 import { SearchDialog } from './SearchDialog';
+import { SidebarMenuContent } from './SidebarMenuContent';
 
 export const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <AppBar
       position="static"
@@ -74,9 +77,17 @@ export const Header = () => {
         >
           <Search fill="#fff" />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => setDrawerOpen(true)}>
           <Hamburger fill="#fff" />
         </IconButton>
+        <Drawer
+          anchor="right"
+          onClose={() => setDrawerOpen(false)}
+          open={drawerOpen}
+          PaperProps={{ sx: { px: 2, pt: 3 } }}
+        >
+          <SidebarMenuContent />
+        </Drawer>
       </Box>
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </AppBar>
