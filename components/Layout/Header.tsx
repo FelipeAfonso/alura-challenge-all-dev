@@ -10,15 +10,20 @@ import {
 import { Box } from '@mui/system';
 import { Hamburger } from 'assets/icons/Hamburger';
 import { Search } from 'assets/icons/Search';
+import { darkModeState } from 'context/state/layout.atom';
 import Image from 'next/image';
 import logoDark from 'public/logo_dark.svg';
-import { useState } from 'react';
+import logoLight from 'public/logo_light.svg';
+import { useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { SearchDialog } from './SearchDialog';
 import { SidebarMenuContent } from './SidebarMenuContent';
 
 export const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const darkMode = useRecoilValue(darkModeState);
+  const logo = darkMode ? logoDark : logoLight;
   return (
     <AppBar
       position="static"
@@ -34,14 +39,19 @@ export const Header = () => {
             alignItems: 'center',
           }}
         >
-          <Image src={logoDark} alt="All Dev logo" />
+          <Image src={logo} alt="All Dev logo" />
         </Grid>
         <Grid item lg={6}>
           <TextField
             label="Busque por algo"
             variant="filled"
+            value=""
+            focused={false}
             fullWidth
-            onClick={() => setSearchOpen(true)}
+            onClick={e => {
+              e.preventDefault();
+              setSearchOpen(true);
+            }}
           />
         </Grid>
         <Grid
@@ -62,7 +72,7 @@ export const Header = () => {
         gap={5}
       >
         <Box sx={{ flex: { xs: 1, sm: 'none' } }}>
-          <Image src={logoDark} alt="All Dev logo" />
+          <Image src={logo} alt="All Dev logo" />
         </Box>
         <TextField
           sx={{ flex: 1, display: { xs: 'none', sm: 'block' } }}
@@ -75,10 +85,10 @@ export const Header = () => {
           sx={{ display: { xs: 'block', sm: 'none' } }}
           onClick={() => setSearchOpen(true)}
         >
-          <Search fill="#fff" />
+          <Search fill="#f2f2f2" />
         </IconButton>
         <IconButton onClick={() => setDrawerOpen(true)}>
-          <Hamburger fill="#fff" />
+          <Hamburger fill="#f2f2f2" />
         </IconButton>
         <Drawer
           anchor="right"

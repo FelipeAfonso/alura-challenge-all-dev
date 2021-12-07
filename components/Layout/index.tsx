@@ -1,13 +1,23 @@
-import { Grid } from '@mui/material';
+import { Grid, ThemeProvider } from '@mui/material';
 import { Box } from '@mui/system';
-import { layoutState, LayoutStateTypes } from 'context/state/layout.atom';
+import { darkTheme } from 'config/darkTheme';
+import { lightTheme } from 'config/lightTheme';
+import {
+  darkModeState,
+  layoutState,
+  LayoutStateTypes,
+} from 'context/state/layout.atom';
 import { FC } from 'react';
 import { useRecoilValue } from 'recoil';
+import { BackgroundProvider } from './BackgroundProvider';
 import { Header } from './Header';
 import { SidebarMenuContent } from './SidebarMenuContent';
 
 export const Layout: FC = ({ children }) => {
   const layout = useRecoilValue(layoutState);
+  const darkMode = useRecoilValue(darkModeState);
+
+  const theme = darkMode ? darkTheme : lightTheme;
 
   const defaultLayout = (
     <>
@@ -29,5 +39,9 @@ export const Layout: FC = ({ children }) => {
     none: noneLayout,
   };
 
-  return layoutDictionary[layout];
+  return (
+    <ThemeProvider theme={theme}>
+      <BackgroundProvider>{layoutDictionary[layout]}</BackgroundProvider>
+    </ThemeProvider>
+  );
 };

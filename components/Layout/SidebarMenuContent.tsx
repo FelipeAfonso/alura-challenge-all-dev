@@ -35,7 +35,7 @@ export const SidebarMenuContent = () => {
           onClick={() => router.push('/editor')}
         >
           <Dev
-            fill={router.pathname === '/editor' ? '#a6a2a2' : '#fff'}
+            fill={router.pathname === '/editor' ? '#a6a2a2' : '#f2f2f2'}
             fontSize="small"
           />
         </AluraIconButton>
@@ -50,7 +50,7 @@ export const SidebarMenuContent = () => {
           onClick={() => router.push('/comunidade')}
         >
           <Community
-            fill={router.pathname === '/comunidade' ? '#a6a2a2' : '#fff'}
+            fill={router.pathname === '/comunidade' ? '#a6a2a2' : '#f2f2f2'}
             fontSize="small"
           />
         </AluraIconButton>

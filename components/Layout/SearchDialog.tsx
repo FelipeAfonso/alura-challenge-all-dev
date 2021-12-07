@@ -10,8 +10,6 @@ export const SearchDialog: FC<{
   useEffect(() => {
     setTimeout(() => {
       if (open) textFieldRef.current?.focus();
-      console.log('🚀 ~ open', open);
-      console.log('🚀 ~ textFieldRef.current', textFieldRef.current);
     }, 100);
   }, [open, textFieldRef]);
 
@@ -24,7 +22,7 @@ export const SearchDialog: FC<{
           alignItems: 'start',
         },
       }}
-      PaperProps={{ sx: { my: 13, width: 700 } }}
+      PaperProps={{ sx: { my: 13, width: 700, borderRadius: 3 } }}
     >
       <TextField
         inputRef={textFieldRef}
