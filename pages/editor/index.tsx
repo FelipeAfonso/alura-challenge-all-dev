@@ -10,10 +10,12 @@ import {
 import { EditorContainer } from 'components/EditorContainer';
 import languages from 'public/languages.json';
 import { useState } from 'react';
+import ColorPicker from 'components/ColorPicker';
 
 const Editor: NextPage = () => {
   useLayout('default');
   const [language, setLanguage] = useState('javascript');
+  const [color, setColor] = useState('');
   return (
     <Grid
       container
@@ -25,7 +27,7 @@ const Editor: NextPage = () => {
     >
       <Grid item xs={12} lg={8}>
         <EditorContainer
-          color="#ff0000"
+          color={color}
           editable
           language={language ?? 'javascript'}
         />
@@ -66,6 +68,7 @@ const Editor: NextPage = () => {
               <TextField {...params} variant="filled" label="Linguagem" />
             )}
           />
+          <ColorPicker onChange={color => setColor(color)} />
         </Stack>
       </Grid>
     </Grid>
