@@ -7,7 +7,8 @@ export const BackgroundProvider: FC = ({ children }) => {
   return (
     <Box
       component="div"
-      height="100vh"
+      minHeight="100vh"
+      height="100%"
       sx={{ bgcolor: theme.palette.background.default }}
     >
       {children}

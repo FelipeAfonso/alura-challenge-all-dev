@@ -1,20 +1,19 @@
 import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import {
-  Button,
+  Autocomplete,
   Grid,
-  Paper,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
-// import { useRecoilState } from 'recoil';
-// import { darkModeState } from 'context/state/layout.atom';
 import { EditorContainer } from 'components/EditorContainer';
+import languages from 'public/languages.json';
+import { useState } from 'react';
 
 const Editor: NextPage = () => {
   useLayout('default');
-  // const [darkMode, setDarkMode] = useRecoilState(darkModeState);
+  const [language, setLanguage] = useState('javascript');
   return (
     <Grid
       container
@@ -25,7 +24,11 @@ const Editor: NextPage = () => {
       sx={{ px: { xs: 4, lg: 0 } }}
     >
       <Grid item xs={12} lg={8}>
-        <EditorContainer color="#ff0000" editable />
+        <EditorContainer
+          color="#ff0000"
+          editable
+          language={language ?? 'javascript'}
+        />
       </Grid>
       <Grid item xs={12} lg={4}>
         {/* <Button onClick={() => setDarkMode(!darkMode)}>Dark Mode</Button> */}
@@ -44,6 +47,24 @@ const Editor: NextPage = () => {
             minRows={2}
             maxRows={6}
             multiline
+          />
+        </Stack>
+        <Stack gap={2} mb={2}>
+          <Typography
+            variant="caption"
+            color="textPrimary"
+            sx={{ letterSpacing: 5, mx: 2 }}
+          >
+            PERSONALIZAÇÃO
+          </Typography>
+          <Autocomplete
+            disablePortal
+            options={languages}
+            onChange={(_ev, value) => value && setLanguage(value)}
+            fullWidth
+            renderInput={params => (
+              <TextField {...params} variant="filled" label="Linguagem" />
+            )}
           />
         </Stack>
       </Grid>

@@ -7,10 +7,10 @@ import materialDark from 'assets/code_styles/material-dark';
 
 export const EditorContainer: FC<{
   color: string;
-  language?: string;
+  language: string;
   editable?: boolean;
   overflow?: boolean;
-}> = ({ color, editable }) => {
+}> = ({ color, editable, language }) => {
   const [code, setCode] = useState('');
 
   return (
@@ -46,7 +46,7 @@ export const EditorContainer: FC<{
                 lineHeight: '1.4375em',
               },
             }}
-            language="javascript"
+            language={language}
           >
             {code}
           </SyntaxHighlighter>
