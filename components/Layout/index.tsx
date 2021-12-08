@@ -23,8 +23,8 @@ export const Layout: FC = ({ children }) => {
     <>
       <Header />
       <Grid
-        sx={{ display: { lg: 'flex', xs: 'none' } }}
-        spacing={8.5}
+        sx={{ display: { lg: 'flex', xs: 'none' }, px: 4 }}
+        spacing={5}
         container
       >
         <Grid item lg={3}>

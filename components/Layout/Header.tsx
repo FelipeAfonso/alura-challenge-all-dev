@@ -30,7 +30,7 @@ export const Header = () => {
       color="transparent"
       sx={{ boxShadow: 'none', px: 4, pt: 6, pb: 4 }}
     >
-      <Grid container sx={{ display: { lg: 'flex', xs: 'none' } }}>
+      <Grid container spacing={5} sx={{ display: { lg: 'flex', xs: 'none' } }}>
         <Grid
           item
           lg={3}
@@ -94,7 +94,7 @@ export const Header = () => {
           anchor="right"
           onClose={() => setDrawerOpen(false)}
           open={drawerOpen}
-          PaperProps={{ sx: { px: 2, pt: 3 } }}
+          PaperProps={{ sx: { px: 5, pt: 3 } }}
         >
           <SidebarMenuContent />
         </Drawer>

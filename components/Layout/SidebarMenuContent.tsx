@@ -8,11 +8,10 @@ import { AluraIconButton } from 'components/AluraIconButton';
 export const SidebarMenuContent = () => {
   const router = useRouter();
   return (
-    <List sx={{ mx: 2, py: 0 }}>
+    <List sx={{ py: 0 }}>
       <Box
         sx={{ display: { lg: 'none', xs: 'flex' } }}
         alignItems="center"
-        mx={2}
         my={2}
         gap={2}
       >
@@ -24,13 +23,13 @@ export const SidebarMenuContent = () => {
       <Typography
         variant="caption"
         color="textPrimary"
-        sx={{ letterSpacing: 5, mx: 2 }}
+        sx={{ letterSpacing: 5 }}
       >
         MENU
       </Typography>
       <ListItem
         onClick={() => router.push('/editor')}
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: 'pointer', px: 0 }}
       >
         <AluraIconButton
           disabled={router.pathname === '/editor'}
@@ -47,7 +46,7 @@ export const SidebarMenuContent = () => {
       </ListItem>
       <ListItem
         onClick={() => router.push('/comunidade')}
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: 'pointer', px: 0 }}
       >
         <AluraIconButton
           disabled={router.pathname === '/comunidade'}
