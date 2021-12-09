@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import {
   Autocomplete,
+  Button,
   Grid,
   Stack,
   TextField,
@@ -11,6 +12,18 @@ import { EditorContainer } from 'components/EditorContainer';
 import languages from 'public/languages.json';
 import { useState } from 'react';
 import ColorPicker from 'components/ColorPicker';
+
+const initialCode = `[] == ![]; // -> true
+!!"false" == !!"true"; // -> true
+"b" + "a" + +"a" + "a"; // -> 'baNaNa'
+NaN === NaN; // -> false
+(![] + [])[+[]] +
+  (![] + [])[+!+[]] +
+  ([![]] + [][[]])[+!+[] + [+[]]] +
+  (![] + [])[!+[] + !+[]];
+// -> 'fail'
+!![]       // -> true
+[] == true // -> false`;
 
 const Editor: NextPage = () => {
   useLayout('default');
@@ -30,6 +43,7 @@ const Editor: NextPage = () => {
           color={color}
           editable
           language={language ?? 'javascript'}
+          initialCode={initialCode}
         />
       </Grid>
       <Grid item xs={12} lg={4}>
@@ -51,7 +65,7 @@ const Editor: NextPage = () => {
             multiline
           />
         </Stack>
-        <Stack gap={2} mb={2}>
+        <Stack gap={2} my={5}>
           <Typography
             variant="caption"
             color="textPrimary"
@@ -69,6 +83,15 @@ const Editor: NextPage = () => {
             )}
           />
           <ColorPicker onChange={color => setColor(color)} />
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2, height: 56 }}
+          >
+            <Typography sx={{ color: '#051D3B', textTransform: 'none' }}>
+              Salvar projeto
+            </Typography>
+          </Button>
         </Stack>
       </Grid>
     </Grid>

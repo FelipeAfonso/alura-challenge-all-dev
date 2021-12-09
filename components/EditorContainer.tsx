@@ -10,8 +10,9 @@ export const EditorContainer: FC<{
   language: string;
   editable?: boolean;
   overflow?: boolean;
-}> = ({ color, editable, language }) => {
-  const [code, setCode] = useState('');
+  initialCode?: string;
+}> = ({ color, editable, language, initialCode }) => {
+  const [code, setCode] = useState(initialCode ?? '');
 
   return (
     <Paper sx={{ bgcolor: color, p: 4 }}>
@@ -23,11 +24,12 @@ export const EditorContainer: FC<{
             <circle cx="46" cy="6" r="6" fill="#27C93F" />
           </svg>
         </Box>
-        <Box>
+        <Box display="grid" gridTemplateColumns="1fr" gridTemplateRows="1fr">
           <SyntaxHighlighter
             style={materialDark}
             customStyle={{
-              position: 'absolute',
+              gridColumnStart: 1,
+              gridRowStart: 1,
               background: 'transparent !important',
               textShadow: 'none',
               fontFamily: 'Roboto Mono, Consolas',
@@ -54,6 +56,8 @@ export const EditorContainer: FC<{
             onChange={e => setCode(e.target.value)}
             variant="filled"
             sx={{
+              gridColumnStart: 1,
+              gridRowStart: 1,
               bgcolor: 'transparent',
               minHeight: 300,
               caretColor: '#f2f2f2',
