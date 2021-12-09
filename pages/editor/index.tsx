@@ -77,6 +77,7 @@ const Editor: NextPage = () => {
             disablePortal
             options={languages}
             onChange={(_ev, value) => value && setLanguage(value)}
+            value={language}
             fullWidth
             renderInput={params => (
               <TextField {...params} variant="filled" label="Linguagem" />
