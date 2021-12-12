@@ -62,5 +62,14 @@ export const darkTheme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        containedPrimary: {
+          '&.Mui-focused': {
+            backgroundColor: 'primary.light',
+          },
+        },
+      },
+    },
   },
 });

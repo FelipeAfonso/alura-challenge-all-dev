@@ -47,6 +47,7 @@ export const Header = () => {
             variant="filled"
             value=""
             focused={false}
+            tabIndex={0}
             fullWidth
             onClick={e => {
               e.preventDefault();
@@ -78,6 +79,7 @@ export const Header = () => {
           sx={{ flex: 1, display: { xs: 'none', sm: 'block' } }}
           label="Busque por algo"
           variant="filled"
+          tabIndex={0}
           onClick={() => setSearchOpen(true)}
           fullWidth
         />

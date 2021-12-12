@@ -41,9 +41,10 @@ const Editor: NextPage = () => {
       <Grid item xs={12} lg={8}>
         <EditorContainer
           color={color}
-          editable
           language={language ?? 'javascript'}
           initialCode={initialCode}
+          tabIndex={0}
+          editable
         />
       </Grid>
       <Grid item xs={12} lg={4}>
@@ -56,12 +57,17 @@ const Editor: NextPage = () => {
           >
             SEU PROJETO
           </Typography>
-          <TextField variant="filled" label="Nome do seu projeto" />
+          <TextField
+            variant="filled"
+            label="Nome do seu projeto"
+            tabIndex={1}
+          />
           <TextField
             variant="filled"
             label="Descrição do seu projeto"
             minRows={2}
             maxRows={6}
+            tabIndex={2}
             multiline
           />
         </Stack>
@@ -78,16 +84,18 @@ const Editor: NextPage = () => {
             options={languages}
             onChange={(_ev, value) => value && setLanguage(value)}
             value={language}
-            fullWidth
             renderInput={params => (
               <TextField {...params} variant="filled" label="Linguagem" />
             )}
+            tabIndex={3}
+            fullWidth
           />
           <ColorPicker onChange={color => setColor(color)} />
           <Button
             variant="contained"
             color="primary"
             sx={{ mt: 2, height: 56 }}
+            tabIndex={4}
           >
             <Typography sx={{ color: '#051D3B', textTransform: 'none' }}>
               Salvar projeto

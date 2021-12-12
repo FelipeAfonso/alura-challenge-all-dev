@@ -61,5 +61,14 @@ export const lightTheme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        containedPrimary: {
+          '&.Mui-focused': {
+            backgroundColor: 'primary.light',
+          },
+        },
+      },
+    },
   },
 });

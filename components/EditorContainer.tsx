@@ -11,7 +11,8 @@ export const EditorContainer: FC<{
   editable?: boolean;
   overflow?: boolean;
   initialCode?: string;
-}> = ({ color, editable, language, initialCode }) => {
+  tabIndex?: number;
+}> = ({ color, editable, language, initialCode, tabIndex }) => {
   const [code, setCode] = useState(initialCode ?? '');
 
   return (
@@ -55,6 +56,7 @@ export const EditorContainer: FC<{
           <TextField
             onChange={e => setCode(e.target.value)}
             variant="filled"
+            tabIndex={tabIndex}
             sx={{
               gridColumnStart: 1,
               gridRowStart: 1,
