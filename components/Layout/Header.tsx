@@ -5,6 +5,7 @@ import {
   Grid,
   IconButton,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -15,6 +16,7 @@ import Image from 'next/image';
 import logoDark from 'public/logo_dark.svg';
 import logoLight from 'public/logo_light.svg';
 import { useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useRecoilValue } from 'recoil';
 import { SearchDialog } from './SearchDialog';
 import { SidebarMenuContent } from './SidebarMenuContent';
@@ -24,6 +26,9 @@ export const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const darkMode = useRecoilValue(darkModeState);
   const logo = darkMode ? logoDark : logoLight;
+
+  useHotkeys('f1', () => setSearchOpen(true));
+
   return (
     <AppBar
       position="static"
@@ -42,18 +47,20 @@ export const Header = () => {
           <Image src={logo} alt="All Dev logo" />
         </Grid>
         <Grid item lg={6}>
-          <TextField
-            label="Busque por algo"
-            variant="filled"
-            value=""
-            focused={false}
-            tabIndex={0}
-            fullWidth
-            onClick={e => {
-              e.preventDefault();
-              setSearchOpen(true);
-            }}
-          />
+          <Tooltip title="Aperte F1 para exibir a barra de busca, e ESC para sair dela!">
+            <TextField
+              label="Busque por algo"
+              variant="filled"
+              value=""
+              focused={false}
+              tabIndex={0}
+              fullWidth
+              onClick={e => {
+                e.preventDefault();
+                setSearchOpen(true);
+              }}
+            />
+          </Tooltip>
         </Grid>
         <Grid
           item
