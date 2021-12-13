@@ -34,7 +34,10 @@ const Editor: NextPage = () => {
     <>
       <Head>
         <meta name="author" content="Felipe Afonso" />
-        <meta property="og:image" content="/aluraDevEmbedabble.jpg" />
+        <meta
+          property="og:image"
+          content="https://alura-challenge-all-dev.vercel.app/aluraDevEmbedabble.jpg"
+        />
         <meta property="og:title" content="Editor de código Alura Dev" />
         <meta
           property="og:description"
