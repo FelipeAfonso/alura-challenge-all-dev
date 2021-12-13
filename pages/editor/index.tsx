@@ -33,6 +33,14 @@ const Editor: NextPage = () => {
   return (
     <>
       <Head>
+        <meta name="description" content="Editor de código do Alura Dev" />
+        <meta name="author" content="Felipe Afonso" />
+        <meta property="og:image" content="/favicon.svg" />
+        <meta property="og:title" content="Editor de código Alura Dev" />
+        <meta
+          property="og:description"
+          content="Nosso editor com syntax highlighting automático o ajudará a compartilhar seus snippets de uma forma elegante!"
+        />
         <title>Editor Alura Dev</title>
       </Head>
       <Grid
