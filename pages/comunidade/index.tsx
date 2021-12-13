@@ -9,10 +9,7 @@ const Community: NextPage = () => {
     <>
       <Head>
         <meta name="author" content="Felipe Afonso" />
-        <meta
-          property="og:image"
-          content="https://alura-challenge-all-dev.vercel.app/logo_dark.svg"
-        />
+        <meta property="og:image" content="/aluraDevEmbedabble.jpg" />
         <meta property="og:title" content="Comunidade Alura Dev" />
         <meta
           property="og:description"
