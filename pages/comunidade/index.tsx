@@ -8,6 +8,16 @@ const Community: NextPage = () => {
   return (
     <>
       <Head>
+        <meta name="author" content="Felipe Afonso" />
+        <meta
+          property="og:image"
+          content="https://alura-challenge-all-dev.vercel.app/logo_dark.svg"
+        />
+        <meta property="og:title" content="Comunidade Alura Dev" />
+        <meta
+          property="og:description"
+          content="Aprecie os snippets compartilhados através de nossa plataforma!"
+        />
         <title>Comunidade Alura Dev</title>
       </Head>
       <Grid item xs={12} lg={6}>

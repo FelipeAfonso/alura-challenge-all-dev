@@ -33,9 +33,11 @@ const Editor: NextPage = () => {
   return (
     <>
       <Head>
-        <meta name="description" content="Editor de código do Alura Dev" />
         <meta name="author" content="Felipe Afonso" />
-        <meta property="og:image" content="/favicon.svg" />
+        <meta
+          property="og:image"
+          content="https://alura-challenge-all-dev.vercel.app/logo_dark.svg"
+        />
         <meta property="og:title" content="Editor de código Alura Dev" />
         <meta
           property="og:description"
