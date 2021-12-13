@@ -105,7 +105,7 @@ export const EditorContainer: FC<{
                 fontFamily: 'Roboto Mono, Consolas',
               },
             }}
-            inputProps={{ spellcheck: 'false' }}
+            inputProps={{ spellCheck: 'false' }}
             value={code}
             disabled={!editable}
             multiline
