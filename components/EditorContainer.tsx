@@ -33,7 +33,7 @@ export const EditorContainer: FC<{
               gridRowStart: 1,
               background: 'transparent !important',
               textShadow: 'none',
-              fontFamily: 'Roboto Mono, Consolas',
+              fontFamily: 'Roboto Mono, Consolas, "monospaced"',
               fontSize: 16,
               lineHeight: '1.4375em',
               paddingLeft: 12,
@@ -44,7 +44,7 @@ export const EditorContainer: FC<{
             codeTagProps={{
               style: {
                 textShadow: 'none',
-                fontFamily: 'Roboto Mono, Consolas',
+                fontFamily: 'Roboto Mono, Consolas, "monospaced"',
                 fontSize: 16,
                 lineHeight: '1.4375em',
               },
