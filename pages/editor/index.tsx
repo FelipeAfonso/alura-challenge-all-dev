@@ -74,7 +74,9 @@ const Editor: NextPage = () => {
             </Typography>
             <TextField
               variant="filled"
-              data-testid="project_name"
+              inputProps={{
+                'data-testid': 'project_name',
+              }}
               label="Nome do seu projeto"
               aria-label="Nome do seu projeto"
               role="textbox"
@@ -82,7 +84,9 @@ const Editor: NextPage = () => {
             />
             <TextField
               variant="filled"
-              data-testid="project_description"
+              inputProps={{
+                'data-testid': 'project_description',
+              }}
               label="Descrição do seu projeto"
               aria-label="Descrição do seu projeto"
               role="textbox"
@@ -109,9 +113,12 @@ const Editor: NextPage = () => {
                 <TextField
                   {...params}
                   variant="filled"
-                  data-testid="project_language"
-                  label="Linguagem"
+                  inputProps={{
+                    ...params.inputProps,
+                    'data-testid': 'project_language',
+                  }}
                   aria-label="Linguagem"
+                  label="Linguagem"
                   role="textbox"
                 />
               )}

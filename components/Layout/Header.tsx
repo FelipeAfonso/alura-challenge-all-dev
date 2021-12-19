@@ -50,7 +50,9 @@ export const Header = () => {
           <Tooltip title="Aperte F1 para exibir a barra de busca, e ESC para sair dela!">
             <TextField
               label="Busque por algo"
-              data-testid="search_box_textfield"
+              inputProps={{
+                'data-testid': 'search_box_textfield_lg',
+              }}
               aria-label="Busque por algo"
               role="searchbox"
               variant="filled"
@@ -88,7 +90,9 @@ export const Header = () => {
         <TextField
           sx={{ flex: 1, display: { xs: 'none', sm: 'block' } }}
           label="Busque por algo"
-          data-testid="search_box_textfield"
+          inputProps={{
+            'data-testid': 'search_box_textfield_sm',
+          }}
           aria-label="Busque por algo"
           role="searchbox"
           variant="filled"

@@ -13,7 +13,7 @@ import { BackgroundProvider } from './BackgroundProvider';
 import { Header } from './Header';
 import { SidebarMenuContent } from './SidebarMenuContent';
 
-export const Layout: FC = ({ children }) => {
+export const Layout: FC<{ testMode?: boolean }> = ({ children, testMode }) => {
   const layout = useRecoilValue(layoutState);
   const darkMode = useRecoilValue(darkModeState);
 
@@ -45,7 +45,9 @@ export const Layout: FC = ({ children }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <BackgroundProvider>{layoutDictionary[layout]}</BackgroundProvider>
+      <BackgroundProvider>
+        {testMode ? defaultLayout : layoutDictionary[layout]}
+      </BackgroundProvider>
     </ThemeProvider>
   );
 };

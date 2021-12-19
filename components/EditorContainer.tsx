@@ -56,7 +56,6 @@ export const EditorContainer: FC<{
           <TextField
             onChange={e => setCode(e.target.value)}
             variant="filled"
-            data-testid="codeEditor"
             tabIndex={tabIndex}
             sx={{
               gridColumnStart: 1,
@@ -108,6 +107,7 @@ export const EditorContainer: FC<{
             }}
             inputProps={{
               spellCheck: 'false',
+              'data-testid': 'code_editor',
               'aria-label': 'Editor de Código',
               role: 'textbox',
             }}

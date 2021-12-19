@@ -29,12 +29,12 @@ export const SidebarMenuContent = () => {
       </Typography>
       <ListItem
         onClick={() => router.push('/editor')}
+        data-testid="sidebar_editor"
         tabIndex={90}
         sx={{ cursor: 'pointer', px: 0 }}
       >
         <AluraIconButton
           disabled={router.pathname === '/editor'}
-          data-testid="sidebar_editor"
           aria-label="Navegar para o Editor de Código"
           role="link"
           color="primary"
@@ -50,13 +50,13 @@ export const SidebarMenuContent = () => {
       </ListItem>
       <ListItem
         onClick={() => router.push('/comunidade')}
+        data-testid="sidebar_community"
         tabIndex={91}
         sx={{ cursor: 'pointer', px: 0 }}
       >
         <AluraIconButton
           disabled={router.pathname === '/comunidade'}
           color="primary"
-          data-testid="sidebar_community"
           aria-label="Navegar para a Comunidade"
           role="link"
         >
