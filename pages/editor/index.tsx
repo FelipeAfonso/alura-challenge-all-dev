@@ -74,12 +74,18 @@ const Editor: NextPage = () => {
             </Typography>
             <TextField
               variant="filled"
+              data-testid="project_name"
               label="Nome do seu projeto"
+              aria-label="Nome do seu projeto"
+              role="textbox"
               tabIndex={1}
             />
             <TextField
               variant="filled"
+              data-testid="project_description"
               label="Descrição do seu projeto"
+              aria-label="Descrição do seu projeto"
+              role="textbox"
               minRows={2}
               maxRows={6}
               tabIndex={2}
@@ -100,7 +106,14 @@ const Editor: NextPage = () => {
               onChange={(_ev, value) => value && setLanguage(value)}
               value={language}
               renderInput={params => (
-                <TextField {...params} variant="filled" label="Linguagem" />
+                <TextField
+                  {...params}
+                  variant="filled"
+                  data-testid="project_language"
+                  label="Linguagem"
+                  aria-label="Linguagem"
+                  role="textbox"
+                />
               )}
               tabIndex={3}
               fullWidth
@@ -109,6 +122,9 @@ const Editor: NextPage = () => {
             <Button
               variant="contained"
               color="primary"
+              data-testid="project_save"
+              aria-label="Salvar Projeto"
+              role="button"
               sx={{ mt: 2, height: 56 }}
               tabIndex={4}
             >

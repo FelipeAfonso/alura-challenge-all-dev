@@ -27,6 +27,9 @@ export const SearchDialog: FC<{
       <TextField
         inputRef={textFieldRef}
         label="Busque por algo"
+        data-testid="search_box_dialog"
+        aria-label="Busque por algo"
+        role="searchbox"
         variant="filled"
         fullWidth
       />

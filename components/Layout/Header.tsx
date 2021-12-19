@@ -50,6 +50,9 @@ export const Header = () => {
           <Tooltip title="Aperte F1 para exibir a barra de busca, e ESC para sair dela!">
             <TextField
               label="Busque por algo"
+              data-testid="search_box_textfield"
+              aria-label="Busque por algo"
+              role="searchbox"
               variant="filled"
               value=""
               focused={false}
@@ -85,6 +88,9 @@ export const Header = () => {
         <TextField
           sx={{ flex: 1, display: { xs: 'none', sm: 'block' } }}
           label="Busque por algo"
+          data-testid="search_box_textfield"
+          aria-label="Busque por algo"
+          role="searchbox"
           variant="filled"
           tabIndex={0}
           onClick={() => setSearchOpen(true)}
@@ -92,6 +98,9 @@ export const Header = () => {
         />
         <IconButton
           sx={{ display: { xs: 'block', sm: 'none' } }}
+          data-testid="search_icon_button"
+          aria-label="Busque por algo"
+          role="search"
           onClick={() => setSearchOpen(true)}
         >
           <Search fill="#f2f2f2" />
