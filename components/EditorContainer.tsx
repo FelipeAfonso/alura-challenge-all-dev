@@ -64,7 +64,7 @@ export const EditorContainer: FC<{
               minHeight: 300,
               caretColor: '#f2f2f2',
               color: 'transparent',
-              fontFamily: 'Roboto Mono, Consolas',
+              fontFamily: 'Roboto Mono, Consolas, "monospaced"',
               '&:hover': {
                 '& .MuiFilledInput-root': {
                   bgcolor: editable
@@ -73,7 +73,7 @@ export const EditorContainer: FC<{
                   borderRadius: 0,
                   minHeight: 305,
                   color: 'transparent',
-                  fontFamily: 'Roboto Mono, Consolas',
+                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
                 },
               },
               '& .Mui-focused': {
@@ -84,7 +84,7 @@ export const EditorContainer: FC<{
                   borderRadius: 0,
                   minHeight: 305,
                   color: 'transparent',
-                  fontFamily: 'Roboto Mono, Consolas',
+                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
                 },
               },
               '& .Mui-disabled': {
@@ -93,7 +93,7 @@ export const EditorContainer: FC<{
                   borderRadius: 0,
                   minHeight: 305,
                   color: 'transparent',
-                  fontFamily: 'Roboto Mono, Consolas',
+                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
                 },
               },
               '& .MuiFilledInput-root': {
@@ -102,7 +102,7 @@ export const EditorContainer: FC<{
                 borderRadius: 0,
                 minHeight: 305,
                 color: 'transparent',
-                fontFamily: 'Roboto Mono, Consolas',
+                fontFamily: 'Roboto Mono, Consolas, "monospaced"',
               },
             }}
             inputProps={{ spellCheck: 'false' }}
