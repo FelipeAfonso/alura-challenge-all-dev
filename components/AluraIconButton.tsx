@@ -5,6 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 
 interface AluraIconAndTextButton extends IconButtonProps {
   label: string;
+  onClick: () => void;
 }
 
 export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
@@ -16,7 +17,7 @@ export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
       gap={2}
       alignItems="center"
       className={props.disabled ? classes.disabledContainer : classes.container}
-      onClick={onClick}
+      onClick={() => onClick()}
     >
       <IconButton sx={{ borderRadius: 4 }} size="large" {...otherProps}>
         {children}
