@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import { Close } from 'assets/icons/Close';
 import { Hamburger } from 'assets/icons/Hamburger';
 import { Search } from 'assets/icons/Search';
 import { darkModeState } from 'context/state/layout.atom';
@@ -110,15 +111,35 @@ export const Header = () => {
           <Search fill="#f2f2f2" />
         </IconButton>
         <IconButton onClick={() => setDrawerOpen(true)}>
-          <Hamburger fill="#f2f2f2" />
+          {drawerOpen ? <Close fill="#f2f2f2" /> : <Hamburger fill="#f2f2f2" />}
         </IconButton>
         <Drawer
           anchor="right"
           onClose={() => setDrawerOpen(false)}
           open={drawerOpen}
-          PaperProps={{ sx: { px: 5, pt: 3 } }}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              mt: {
+                xs: '126px',
+                sm: '136px',
+              },
+              px: 5,
+              pt: 3,
+              borderRadius: 2,
+              bgcolor: {
+                xs: '#2b415a !important',
+                lg: 'transparent',
+              },
+            },
+          }}
+          BackdropProps={{
+            sx: {
+              bgcolor: 'transparent',
+            },
+          }}
         >
-          <SidebarMenuContent />
+          <SidebarMenuContent drawer />
         </Drawer>
       </Box>
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />

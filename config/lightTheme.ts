@@ -4,8 +4,8 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      '100': '#96B9FD',
-      light: '#7BA4FC',
+      '100': '#93baf9',
+      light: '#78a5f8',
       main: '#5081FB',
     },
     background: {
@@ -40,14 +40,14 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
-          backgroundColor: 'rgb(0,0,0, 0.16)',
+          backgroundColor: '#FFFFFF29',
           '&:hover': {
             borderRadius: 10,
-            backgroundColor: 'rgb(0,0,0, 0.24)',
+            backgroundColor: '#FFFFFF3D',
           },
           '&.Mui-focused': {
             borderRadius: 10,
-            backgroundColor: 'rgb(0,0,0, 0.24)',
+            backgroundColor: '#FFFFFF3D',
           },
         },
       },
@@ -65,8 +65,12 @@ export const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
+          borderRadius: 8,
+          '&:hover': {
+            backgroundColor: '#78a5f8',
+          },
           '&.Mui-focused': {
-            backgroundColor: 'primary.light',
+            backgroundColor: '#93baf9',
           },
         },
       },

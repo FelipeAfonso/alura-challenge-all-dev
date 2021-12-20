@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
   container: {
     cursor: 'pointer',
     '&>button': {
-      backgroundColor: 'rgba(80, 129, 251, 0.16)',
+      backgroundColor: 'rgba(80, 129, 251, 0.16) !important',
       color: '#8291a8',
     },
     '&>p': {
@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
     },
     '&:hover': {
       '&>button': {
-        backgroundColor: 'rgba(80, 129, 251, 0.64)',
+        backgroundColor: 'rgba(80, 129, 251, 0.64) !important',
         color: '#d6dfef',
       },
       '&>p': {

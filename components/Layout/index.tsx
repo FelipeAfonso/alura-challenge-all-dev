@@ -23,7 +23,10 @@ export const Layout: FC<{ testMode?: boolean }> = ({ children, testMode }) => {
     <>
       <Header />
       <Grid
-        sx={{ display: { lg: 'flex', xs: 'none' }, px: 4 }}
+        sx={{
+          display: { lg: 'flex', xs: 'none' },
+          px: 4,
+        }}
         spacing={5}
         container
       >

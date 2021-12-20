@@ -4,8 +4,8 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      '100': '#96B9FD',
-      light: '#7BA4FC',
+      '100': '#93baf9',
+      light: '#78a5f8',
       main: '#5081FB',
     },
     background: {
@@ -14,7 +14,7 @@ export const darkTheme = createTheme({
     },
     text: {
       primary: '#F2F2F2',
-      secondary: '#A6A2A2',
+      secondary: 'rgba(255, 255, 255, 0.64)',
       disabled: '#A6A2A2',
     },
   },
@@ -66,8 +66,12 @@ export const darkTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
+          borderRadius: 8,
+          '&:hover': {
+            backgroundColor: '#78a5f8',
+          },
           '&.Mui-focused': {
-            backgroundColor: 'primary.light',
+            backgroundColor: '#93baf9',
           },
         },
       },
