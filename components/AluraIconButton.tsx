@@ -1,9 +1,55 @@
-import { IconButton } from '@mui/material';
-import { styled } from '@mui/system';
+import { IconButton, IconButtonProps, Typography } from '@mui/material';
+import { Box, styled } from '@mui/system';
+import { FC } from 'react';
+import makeStyles from '@mui/styles/makeStyles';
 
-export const AluraIconButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  borderRadius: 3,
-  p: 1.3,
-  '&:hover': { backgroundColor: theme.palette.primary.light },
+interface AluraIconAndTextButton extends IconButtonProps {
+  label: string;
+}
+
+export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
+  const { label, children, onClick, ...otherProps } = props;
+  const classes = useStyles();
+  return (
+    <Box
+      display="flex"
+      gap={2}
+      alignItems="center"
+      className={props.disabled ? classes.disabledContainer : classes.container}
+      onClick={onClick}
+    >
+      <IconButton sx={{ borderRadius: 4 }} size="large" {...otherProps}>
+        {children}
+      </IconButton>
+      <Typography color="textPrimary">{label}</Typography>
+    </Box>
+  );
+};
+
+const useStyles = makeStyles(() => ({
+  container: {
+    cursor: 'pointer',
+    '&>button': {
+      backgroundColor: 'rgba(80, 129, 251, 0.16)',
+      color: '#8291a8',
+    },
+    '&>p': {
+      color: '#8291a8',
+    },
+    '&:hover': {
+      '&>button': {
+        backgroundColor: 'rgba(80, 129, 251, 0.64)',
+        color: '#d6dfef',
+      },
+      '&>p': {
+        color: '#d6dfef',
+      },
+    },
+  },
+  disabledContainer: {
+    cursor: 'pointer',
+    '&>p': {
+      color: '#f2f2f2',
+    },
+  },
 }));

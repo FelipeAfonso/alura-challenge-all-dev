@@ -1,14 +1,18 @@
+import { useRef } from 'react';
 import { Avatar, IconButton, List, ListItem, Typography } from '@mui/material';
 import { Community } from 'assets/icons/Community';
 import { Box } from '@mui/system';
 import { Dev } from 'assets/icons/Dev';
 import { useRouter } from 'next/router';
-import { AluraIconButton } from 'components/AluraIconButton';
+import {
+  AluraIconAndTextButton,
+  AluraIconButton,
+} from 'components/AluraIconButton';
 
 export const SidebarMenuContent = () => {
   const router = useRouter();
   return (
-    <List sx={{ py: 0 }}>
+    <Box display="flex" flexDirection="column" gap={2}>
       <Box
         sx={{ display: { lg: 'none', xs: 'flex' } }}
         alignItems="center"
@@ -27,48 +31,30 @@ export const SidebarMenuContent = () => {
       >
         MENU
       </Typography>
-      <ListItem
+      <AluraIconAndTextButton
+        label="Editor"
         onClick={() => router.push('/editor')}
         data-testid="sidebar_editor"
         tabIndex={90}
-        sx={{ cursor: 'pointer', px: 0 }}
+        disabled={router.pathname === '/editor'}
+        aria-label="Navegar para o Editor de Código"
+        role="link"
+        color="primary"
       >
-        <AluraIconButton
-          disabled={router.pathname === '/editor'}
-          aria-label="Navegar para o Editor de Código"
-          role="link"
-          color="primary"
-        >
-          <Dev
-            fill={router.pathname === '/editor' ? '#a6a2a2' : '#f2f2f2'}
-            fontSize="small"
-          />
-        </AluraIconButton>
-        <Typography color="textPrimary" sx={{ mx: 2 }}>
-          Editor
-        </Typography>
-      </ListItem>
-      <ListItem
+        <Dev fontSize="small" />
+      </AluraIconAndTextButton>
+      <AluraIconAndTextButton
+        label="Comunidade"
         onClick={() => router.push('/comunidade')}
         data-testid="sidebar_community"
         tabIndex={91}
-        sx={{ cursor: 'pointer', px: 0 }}
+        disabled={router.pathname === '/comunidade'}
+        color="primary"
+        aria-label="Navegar para a Comunidade"
+        role="link"
       >
-        <AluraIconButton
-          disabled={router.pathname === '/comunidade'}
-          color="primary"
-          aria-label="Navegar para a Comunidade"
-          role="link"
-        >
-          <Community
-            fill={router.pathname === '/comunidade' ? '#a6a2a2' : '#f2f2f2'}
-            fontSize="small"
-          />
-        </AluraIconButton>
-        <Typography color="textPrimary" sx={{ mx: 2 }}>
-          Comunidade
-        </Typography>
-      </ListItem>
-    </List>
+        <Community fontSize="small" />
+      </AluraIconAndTextButton>
+    </Box>
   );
 };

@@ -56,7 +56,8 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-disabled': {
-            backgroundColor: '#5081FB29 !important',
+            backgroundColor: '#5081FB !important',
+            color: '#fff',
           },
         },
       },
