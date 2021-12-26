@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "title": "Outputs Estranhos do JS",
+    "description": "Coleção de diferentes códigos que retornam resultados estranhos!",
+    "color": "#9AFF6B",
+    "language": "javascript",
+    "code": "[] == ![]; // -> true\n!!'false' == !!'true'; // -> true\n'b' + 'a' + +'a' + 'a'; // -> 'baNaNa'\nNaN === NaN; // -> false\n(![] + [])[+[]] +\n(![] + [])[+!+[]] +\n([![]] + [][[]])[+!+[] + [+[]]] +\n(![] + [])[!+[] + !+[]];\n// -> 'fail'\n!![]       // -> true\n[] == true // -> false",
+    "userName": "Felipe",
+    "userPicUrl": "",
+    "favoritesCount": 5,
+    "commentsCount": 6
+  }
+]
