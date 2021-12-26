@@ -2,8 +2,25 @@ import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import { Grid } from '@mui/material';
 import Head from 'next/head';
+import { EditorContainer } from 'components/EditorContainer';
+import mockedData from './mockdata.json';
 
-const Community: NextPage = () => {
+export type ProjectData = {
+  id: string;
+  title: string;
+  description: string;
+  color: string;
+  language: string;
+  code: string;
+  userName: string;
+  userPicUrl?: string;
+  favoritesCount: number;
+  commentsCount: number;
+};
+
+const Community: NextPage<{
+  data: ProjectData[];
+}> = ({ data }) => {
   useLayout('default');
   return (
     <>
@@ -20,11 +37,17 @@ const Community: NextPage = () => {
         />
         <title>Comunidade Alura Dev</title>
       </Head>
-      <Grid item xs={12} lg={6}>
-        Teste!!
-      </Grid>
-      <Grid item xs={12} lg={3}>
-        Teste222
+      <Grid item container xs={12} lg={9}>
+        {(mockedData as ProjectData[]).map(d => (
+          <Grid key={d.id} item xs={12} lg={6}>
+            <EditorContainer
+              initialCode={d.code}
+              color={d.color}
+              language={d.language}
+              editable={false}
+            />
+          </Grid>
+        ))}
       </Grid>
     </>
   );

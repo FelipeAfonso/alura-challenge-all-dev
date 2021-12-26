@@ -1,8 +1,7 @@
-import { Paper, Stack, TextField } from '@mui/material';
+import { Paper, TextField } from '@mui/material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { Box, lineHeight } from '@mui/system';
+import { Box } from '@mui/system';
 import React, { FC, useState } from 'react';
-import dynamic from 'next/dynamic';
 import materialDark from 'assets/code_styles/material-dark';
 
 export const EditorContainer: FC<{
