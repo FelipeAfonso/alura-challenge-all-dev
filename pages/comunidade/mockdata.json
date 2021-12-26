@@ -10,5 +10,17 @@
     "userPicUrl": "",
     "favoritesCount": 5,
     "commentsCount": 6
+  },
+  {
+    "id": "2",
+    "title": "Outputs Estranhos do JS 2",
+    "description": "Coleção de diferentes códigos que retornam resultados estranhos!",
+    "color": "#ffff00",
+    "language": "javascript",
+    "code": "[] == ![]; // -> true\n!!'false' == !!'true'; // -> true\n'b' + 'a' + +'a' + 'a'; // -> 'baNaNa'\nNaN === NaN; // -> false\n(![] + [])[+[]] +\n(![] + [])[+!+[]] +\n([![]] + [][[]])[+!+[] + [+[]]] +\n(![] + [])[!+[] + !+[]];\n// -> 'fail'\n!![]       // -> true\n[] == true // -> false",
+    "userName": "Felipe",
+    "userPicUrl": "",
+    "favoritesCount": 12,
+    "commentsCount": 3
   }
 ]

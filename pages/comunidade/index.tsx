@@ -37,7 +37,14 @@ const Community: NextPage<{
         />
         <title>Comunidade Alura Dev</title>
       </Head>
-      <Grid item container xs={12} lg={9}>
+      <Grid
+        item
+        container
+        xs={12}
+        lg={9}
+        spacing={3}
+        sx={{ px: { xs: 4, lg: 0 } }}
+      >
         {(mockedData as ProjectData[]).map(d => (
           <Grid key={d.id} item xs={12} lg={6}>
             <EditorContainer

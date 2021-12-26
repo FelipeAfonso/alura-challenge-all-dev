@@ -15,8 +15,23 @@ export const EditorContainer: FC<{
   const [code, setCode] = useState(initialCode ?? '');
 
   return (
-    <Paper sx={{ bgcolor: color, p: 4 }}>
-      <Paper elevation={5} sx={{ bgcolor: '#141414', backgroundImage: 'none' }}>
+    <Paper
+      sx={{
+        bgcolor: color,
+        p: 4,
+      }}
+    >
+      <Paper
+        elevation={5}
+        sx={{
+          bgcolor: '#141414',
+          backgroundImage: 'none',
+          transition: 'background-color 0.3s ease-in-out',
+          '&:hover': {
+            bgcolor: editable ? '#242424' : '#141414',
+          },
+        }}
+      >
         <Box mx={2} py={2}>
           <svg width="52" height="12" viewBox="0 0 52 12" fill="none">
             <circle cx="6" cy="6" r="6" fill="#FF5F56" />
@@ -64,11 +79,11 @@ export const EditorContainer: FC<{
               caretColor: '#f2f2f2',
               color: 'transparent',
               fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+              transition: 'none',
+              WebkitTransition: 'none',
               '&:hover': {
                 '& .MuiFilledInput-root': {
-                  bgcolor: editable
-                    ? 'rgb(255, 255, 255, 0.16)'
-                    : 'transparent',
+                  bgcolor: 'transparent',
                   borderRadius: 0,
                   minHeight: 305,
                   color: 'transparent',
@@ -77,9 +92,7 @@ export const EditorContainer: FC<{
               },
               '& .Mui-focused': {
                 '& .MuiFilledInput-root': {
-                  bgcolor: editable
-                    ? 'rgb(255, 255, 255, 0.24)'
-                    : 'transparent',
+                  bgcolor: 'transparent',
                   borderRadius: 0,
                   minHeight: 305,
                   color: 'transparent',
@@ -87,12 +100,17 @@ export const EditorContainer: FC<{
                 },
               },
               '& .Mui-disabled': {
+                transition: 'none',
+                WebkitTransition: 'none',
                 '& .MuiFilledInput-root': {
                   bgcolor: 'transparent',
                   borderRadius: 0,
                   minHeight: 305,
                   color: 'transparent',
                   fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+                },
+                '& .MuiFilledInput-input': {
+                  WebkitTextFillColor: 'transparent',
                 },
               },
               '& .MuiFilledInput-root': {
