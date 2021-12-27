@@ -60,6 +60,7 @@ export const lightTheme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
+          transition: 'all 0.3s ease-in-out',
           '&.Mui-disabled': {
             backgroundColor: '#5081FB !important',
             color: '#fff',
@@ -70,6 +71,7 @@ export const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
+          transition: 'all 0.3s ease-in-out',
           borderRadius: 8,
           '&:hover': {
             backgroundColor: '#78a5f8',
@@ -77,6 +79,13 @@ export const lightTheme = createTheme({
           '&.Mui-focused': {
             backgroundColor: '#93baf9',
           },
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          transition: 'all 0.3s ease-in-out',
         },
       },
     },

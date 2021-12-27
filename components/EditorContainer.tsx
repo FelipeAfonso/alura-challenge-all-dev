@@ -67,72 +67,59 @@ export const EditorContainer: FC<{
           >
             {code}
           </SyntaxHighlighter>
-          <TextField
-            onChange={e => setCode(e.target.value)}
-            variant="filled"
-            tabIndex={tabIndex}
-            sx={{
-              gridColumnStart: 1,
-              gridRowStart: 1,
-              bgcolor: 'transparent',
-              minHeight: 300,
-              caretColor: '#f2f2f2',
-              color: 'transparent',
-              fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-              transition: 'none',
-              WebkitTransition: 'none',
-              '&:hover': {
-                '& .MuiFilledInput-root': {
-                  bgcolor: 'transparent',
-                  borderRadius: 0,
-                  minHeight: 305,
-                  color: 'transparent',
-                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-                },
-              },
-              '& .Mui-focused': {
-                '& .MuiFilledInput-root': {
-                  bgcolor: 'transparent',
-                  borderRadius: 0,
-                  minHeight: 305,
-                  color: 'transparent',
-                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-                },
-              },
-              '& .Mui-disabled': {
-                transition: 'none',
-                WebkitTransition: 'none',
-                '& .MuiFilledInput-root': {
-                  bgcolor: 'transparent',
-                  borderRadius: 0,
-                  minHeight: 305,
-                  color: 'transparent',
-                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-                },
-                '& .MuiFilledInput-input': {
-                  WebkitTextFillColor: 'transparent',
-                },
-              },
-              '& .MuiFilledInput-root': {
-                bgcolor: 'transparent',
-                alignItems: 'start',
-                borderRadius: 0,
-                minHeight: 305,
+          {editable && (
+            <TextField
+              onChange={e => setCode(e.target.value)}
+              variant="filled"
+              tabIndex={tabIndex}
+              sx={{
+                gridColumnStart: 1,
+                gridRowStart: 1,
+                bgcolor: 'transparent !important',
+                minHeight: 300,
+                caretColor: '#f2f2f2',
                 color: 'transparent',
                 fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-              },
-            }}
-            inputProps={{
-              spellCheck: 'false',
-              'data-testid': 'code_editor',
-              'aria-label': 'Editor de Código',
-              role: 'textbox',
-            }}
-            value={code}
-            disabled={!editable}
-            multiline
-            fullWidth
-          />
+                transition: 'none',
+                WebkitTransition: 'none',
+                '&:hover': {
+                  '& .MuiFilledInput-root': {
+                    bgcolor: 'transparent',
+                    borderRadius: 0,
+                    minHeight: 305,
+                    color: 'transparent',
+                    fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+                  },
+                },
+                '& .Mui-focused': {
+                  '& .MuiFilledInput-root': {
+                    bgcolor: 'transparent',
+                    borderRadius: 0,
+                    minHeight: 305,
+                    color: 'transparent',
+                    fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+                  },
+                },
+                '& .MuiFilledInput-root': {
+                  bgcolor: 'transparent !important',
+                  alignItems: 'start',
+                  borderRadius: 0,
+                  minHeight: 305,
+                  color: 'transparent',
+                  fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+                },
+              }}
+              inputProps={{
+                spellCheck: 'false',
+                'data-testid': 'code_editor',
+                'aria-label': 'Editor de Código',
+                role: 'textbox',
+              }}
+              value={code}
+              multiline
+              fullWidth
+            />
+          )}
         </Box>
       </Paper>
     </Paper>

@@ -1,12 +1,5 @@
-import { FC, useRef } from 'react';
-import {
-  Avatar,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material';
+import { FC } from 'react';
+import { Avatar, Button, Divider, Typography } from '@mui/material';
 import { Community } from 'assets/icons/Community';
 import { Box } from '@mui/system';
 import { Dev } from 'assets/icons/Dev';
@@ -19,17 +12,19 @@ export const SidebarMenuContent: FC<{
   const router = useRouter();
 
   const AvatarDisplay = () => (
-    <Box
-      sx={{ display: { lg: 'none', xs: 'flex' } }}
-      alignItems="center"
-      my={2}
-      gap={2}
+    <Button
+      variant="text"
+      sx={{
+        textTransform: 'none',
+        display: { lg: 'none', xs: 'flex' },
+        justifyContent: 'start',
+      }}
+      startIcon={<Avatar sx={{ width: 24, height: 24 }} />}
     >
-      <Avatar />
       <Typography variant="body1" color="textPrimary">
         Nome
       </Typography>
-    </Box>
+    </Button>
   );
 
   return (

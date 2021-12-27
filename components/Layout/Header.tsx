@@ -1,6 +1,7 @@
 import {
   AppBar,
   Avatar,
+  Button,
   Drawer,
   Grid,
   IconButton,
@@ -71,13 +72,26 @@ export const Header = () => {
         <Grid
           item
           lg={3}
-          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}
-          gap={2}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'end',
+          }}
         >
-          <Avatar />
-          <Typography variant="subtitle1" color="textPrimary">
-            Nome
-          </Typography>
+          <Button variant="text" sx={{ textTransform: 'none' }}>
+            <Box
+              gap={2}
+              p={1}
+              display="flex"
+              alignItems="center"
+              flexDirection="row"
+            >
+              <Avatar sx={{ width: 32, height: 32 }} />
+              <Typography variant="subtitle1" color="textPrimary">
+                Nome
+              </Typography>
+            </Box>
+          </Button>
         </Grid>
       </Grid>
       <Box
@@ -110,7 +124,10 @@ export const Header = () => {
         >
           <Search fill="#f2f2f2" />
         </IconButton>
-        <IconButton onClick={() => setDrawerOpen(true)}>
+        <IconButton
+          sx={{ width: 48, height: 48 }}
+          onClick={() => setDrawerOpen(true)}
+        >
           {drawerOpen ? <Close fill="#f2f2f2" /> : <Hamburger fill="#f2f2f2" />}
         </IconButton>
         <Drawer

@@ -6,6 +6,7 @@ import { EditorContainer } from 'components/EditorContainer';
 import mockedData from './mockdata.json';
 import { TextBubble } from 'assets/icons/TextBubble';
 import { Heart } from 'assets/icons/Heart';
+import { StackedIconButton } from 'components/StackedIconButton';
 
 export type ProjectData = {
   id: string;
@@ -70,30 +71,18 @@ const Community: NextPage<{
                 </Typography>
               </Stack>
               <Box display="flex" px={3} mt={1} mb={3} alignItems="center">
-                <Stack
-                  flexDirection="row"
-                  gap="10px"
-                  m={1}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => console.log('comment')}
-                >
+                <StackedIconButton onClick={() => console.log('comment')}>
                   <TextBubble fill="#fff" />
                   <Typography variant="body1" color="textPrimary">
                     {d.commentsCount}
                   </Typography>
-                </Stack>
-                <Stack
-                  flexDirection="row"
-                  gap="10px"
-                  m={1}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => console.log('faved')}
-                >
+                </StackedIconButton>
+                <StackedIconButton onClick={() => console.log('faved')}>
                   <Heart fill="#fff" />
                   <Typography variant="body1" color="textPrimary">
                     {d.favoritesCount}
                   </Typography>
-                </Stack>
+                </StackedIconButton>
                 <Stack
                   flexDirection="row"
                   flex={1}
