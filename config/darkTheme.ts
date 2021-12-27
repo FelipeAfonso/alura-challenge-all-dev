@@ -32,6 +32,11 @@ export const darkTheme = createTheme({
       fontSize: 21,
       lineHeight: '32px',
     },
+    subtitle2: {
+      fontSize: 21,
+      lineHeight: '32px',
+      fontWeight: 700,
+    },
   },
   components: {
     MuiFilledInput: {
@@ -73,6 +78,13 @@ export const darkTheme = createTheme({
           '&.Mui-focused': {
             backgroundColor: '#93baf9',
           },
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          color: '#fff',
         },
       },
     },

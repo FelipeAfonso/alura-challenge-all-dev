@@ -7,7 +7,7 @@
     "language": "javascript",
     "code": "[] == ![]; // -> true\n!!'false' == !!'true'; // -> true\n'b' + 'a' + +'a' + 'a'; // -> 'baNaNa'\nNaN === NaN; // -> false\n(![] + [])[+[]] +\n(![] + [])[+!+[]] +\n([![]] + [][[]])[+!+[] + [+[]]] +\n(![] + [])[!+[] + !+[]];\n// -> 'fail'\n!![]       // -> true\n[] == true // -> false",
     "userName": "Felipe",
-    "userPicUrl": "",
+    "userPicUrl": "https://thispersondoesnotexist.com/image",
     "favoritesCount": 5,
     "commentsCount": 6
   },
@@ -19,7 +19,7 @@
     "language": "javascript",
     "code": "[] == ![]; // -> true\n!!'false' == !!'true'; // -> true\n'b' + 'a' + +'a' + 'a'; // -> 'baNaNa'\nNaN === NaN; // -> false\n(![] + [])[+[]] +\n(![] + [])[+!+[]] +\n([![]] + [][[]])[+!+[] + [+[]]] +\n(![] + [])[!+[] + !+[]];\n// -> 'fail'\n!![]       // -> true\n[] == true // -> false",
     "userName": "Felipe",
-    "userPicUrl": "",
+    "userPicUrl": "https://thispersondoesnotexist.com/image",
     "favoritesCount": 12,
     "commentsCount": 3
   }

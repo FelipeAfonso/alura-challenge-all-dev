@@ -1,9 +1,11 @@
 import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
-import { Grid } from '@mui/material';
+import { Avatar, Box, Grid, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import { EditorContainer } from 'components/EditorContainer';
 import mockedData from './mockdata.json';
+import { TextBubble } from 'assets/icons/TextBubble';
+import { Heart } from 'assets/icons/Heart';
 
 export type ProjectData = {
   id: string;
@@ -43,16 +45,70 @@ const Community: NextPage<{
         xs={12}
         lg={9}
         spacing={3}
-        sx={{ px: { xs: 4, lg: 0 } }}
+        sx={{ px: { xs: 4, lg: 0 }, mb: 3 }}
       >
         {(mockedData as ProjectData[]).map(d => (
           <Grid key={d.id} item xs={12} lg={6}>
-            <EditorContainer
-              initialCode={d.code}
-              color={d.color}
-              language={d.language}
-              editable={false}
-            />
+            <Box
+              display="flex"
+              flexDirection="column"
+              bgcolor="#00000029"
+              borderRadius={2}
+            >
+              <EditorContainer
+                initialCode={d.code}
+                color={d.color}
+                language={d.language}
+                editable={false}
+              />
+              <Stack p={3} gap={1}>
+                <Typography variant="subtitle2" color="textPrimary">
+                  {d.title}
+                </Typography>
+                <Typography variant="body1" color="textPrimary">
+                  {d.description}
+                </Typography>
+              </Stack>
+              <Box display="flex" px={3} mt={1} mb={3} alignItems="center">
+                <Stack
+                  flexDirection="row"
+                  gap="10px"
+                  m={1}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => console.log('comment')}
+                >
+                  <TextBubble fill="#fff" />
+                  <Typography variant="body1" color="textPrimary">
+                    {d.commentsCount}
+                  </Typography>
+                </Stack>
+                <Stack
+                  flexDirection="row"
+                  gap="10px"
+                  m={1}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => console.log('faved')}
+                >
+                  <Heart fill="#fff" />
+                  <Typography variant="body1" color="textPrimary">
+                    {d.favoritesCount}
+                  </Typography>
+                </Stack>
+                <Stack
+                  flexDirection="row"
+                  flex={1}
+                  gap={1}
+                  m={1}
+                  justifyContent="end"
+                  alignItems="center"
+                >
+                  <Avatar sx={{ width: 24, height: 24 }} src={d.userPicUrl} />
+                  <Typography variant="body1" color="textPrimary">
+                    {d.userName}
+                  </Typography>
+                </Stack>
+              </Box>
+            </Box>
           </Grid>
         ))}
       </Grid>
