@@ -44,7 +44,7 @@ export const SidebarMenuContent: FC<{
         onClick={() => router.push('/editor')}
         data-testid="sidebar_editor"
         tabIndex={90}
-        disabled={router.pathname === '/editor'}
+        disabled={router.pathname.includes('/editor')}
         aria-label="Navegar para o Editor de Código"
         role="link"
         color="primary"
@@ -56,7 +56,7 @@ export const SidebarMenuContent: FC<{
         onClick={() => router.push('/comunidade')}
         data-testid="sidebar_community"
         tabIndex={91}
-        disabled={router.pathname === '/comunidade'}
+        disabled={router.pathname.includes('/comunidade')}
         color="primary"
         aria-label="Navegar para a Comunidade"
         role="link"

@@ -47,6 +47,7 @@ export const EditorContainer: FC<{
           onChange={e => setCode(e)}
           value={code}
           readOnly={!editable}
+          style={{ cursor: editable ? 'text' : 'pointer' }}
         />
       </Paper>
     </Paper>

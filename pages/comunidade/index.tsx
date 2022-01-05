@@ -7,6 +7,7 @@ import mockedData from './mockdata.json';
 import { TextBubble } from 'assets/icons/TextBubble';
 import { Heart } from 'assets/icons/Heart';
 import { StackedIconButton } from 'components/StackedIconButton';
+import { useRouter } from 'next/router';
 
 export type ProjectData = {
   id: string;
@@ -25,6 +26,7 @@ const Community: NextPage<{
   data: ProjectData[];
 }> = ({ data }) => {
   useLayout('default');
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -55,6 +57,12 @@ const Community: NextPage<{
               flexDirection="column"
               bgcolor="#00000029"
               borderRadius={2}
+              data-testid="project_box"
+              data-id={d.id}
+              aria-label={`Projeto ${d.title}`}
+              role="link"
+              sx={{ cursor: 'pointer' }}
+              onClick={() => router.push(`/editor/${d.id}`)}
             >
               <EditorContainer
                 initialCode={d.code}
@@ -71,13 +79,23 @@ const Community: NextPage<{
                 </Typography>
               </Stack>
               <Box display="flex" px={3} mt={1} mb={3} alignItems="center">
-                <StackedIconButton onClick={() => console.log('comment')}>
+                <StackedIconButton
+                  role="button"
+                  aria-label="Deixe seu comentário"
+                  data-testid="comment_button"
+                  onClick={() => console.log('comment')}
+                >
                   <TextBubble fill="#fff" />
                   <Typography variant="body1" color="textPrimary">
                     {d.commentsCount}
                   </Typography>
                 </StackedIconButton>
-                <StackedIconButton onClick={() => console.log('faved')}>
+                <StackedIconButton
+                  role="button"
+                  aria-label="Favoritar código"
+                  data-testid="fav_button"
+                  onClick={() => console.log('faved')}
+                >
                   <Heart fill="#fff" />
                   <Typography variant="body1" color="textPrimary">
                     {d.favoritesCount}
@@ -90,6 +108,8 @@ const Community: NextPage<{
                   m={1}
                   justifyContent="end"
                   alignItems="center"
+                  role="img"
+                  aria-label={`Imagem do usuário: ${d.userName}`}
                 >
                   <Avatar sx={{ width: 24, height: 24 }} src={d.userPicUrl} />
                   <Typography variant="body1" color="textPrimary">

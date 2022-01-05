@@ -13,6 +13,7 @@ import languages from 'public/languages.json';
 import { useState } from 'react';
 import ColorPicker from 'components/ColorPicker';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 const initialCode = `[] == ![]; // -> true
 !!"false" == !!"true"; // -> true
@@ -28,6 +29,8 @@ NaN === NaN; // -> false
 
 const Editor: NextPage = () => {
   useLayout('default');
+  const router = useRouter();
+  const { slug } = router.query;
   const [language, setLanguage] = useState('javascript');
   const [color, setColor] = useState('');
   return (
