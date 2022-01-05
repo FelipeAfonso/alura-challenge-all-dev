@@ -22,4 +22,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npx pnpm install --frozen-lockfile
       - run: npx playwright install-deps
-      - run: npx pnpm start & npx pnpm test
+      - run: npx pnpm dev & npx pnpm test
