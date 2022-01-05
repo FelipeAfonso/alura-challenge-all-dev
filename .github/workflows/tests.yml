@@ -1,9 +1,9 @@
 name: Tests
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * 1-5'
 
 jobs:
   build:
@@ -18,5 +18,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npx pnpm install --frozen-lockfile
-      - run: npx pnpm dev
-      - run: npx pnpm test
+      - run: npx playwright install-deps
+      - run: npx pnpm start & npx pnpm test
