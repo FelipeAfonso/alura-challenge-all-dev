@@ -180,23 +180,25 @@ const AceEditorComponent: FC<IAceEditorProps> = props => (
       theme="monokai"
       height="fit-content"
       width="calc(100% - 24px)"
+      fontSize={16}
+      enableBasicAutocompletion
+      enableSnippets
+      enableLiveAutocompletion
+      {...props}
       style={{
         backgroundColor: 'transparent',
         minHeight: '300px',
         marginLeft: 12,
         marginRight: 12,
+        ...props.style,
       }}
       setOptions={{
         showLineNumbers: false,
         showGutter: false,
         printMargin: false,
         fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+        ...props.setOptions,
       }}
-      fontSize={16}
-      enableBasicAutocompletion
-      enableSnippets
-      enableLiveAutocompletion
-      {...props}
     />
   </div>
 );

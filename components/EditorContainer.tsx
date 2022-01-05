@@ -17,6 +17,7 @@ export const EditorContainer: FC<{
 
   return (
     <Paper
+      data-testid="editor-colorful-container"
       sx={{
         bgcolor: color,
         p: 4,
@@ -41,9 +42,11 @@ export const EditorContainer: FC<{
           </svg>
         </Box>
         <AceEditorComponent
+          data-testid="code-editor"
           mode={language}
           onChange={e => setCode(e)}
           value={code}
+          readOnly={!editable}
         />
       </Paper>
     </Paper>
