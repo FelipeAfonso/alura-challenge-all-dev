@@ -39,13 +39,19 @@ const ColorPicker: FC<ColorPickerProps> = ({ onChange, textFieldProps }) => {
       renderInput={params => {
         const InputProps = {
           ...params.InputProps,
+          ...textFieldProps?.InputProps,
           startAdornment: <Circle color={value} />,
+        };
+        const inputProps = {
+          ...params.inputProps,
+          ...textFieldProps?.inputProps,
         };
         return (
           <TextField
             {...textFieldProps}
             {...params}
             InputProps={InputProps}
+            inputProps={inputProps}
             variant="filled"
             label="Cor"
           />

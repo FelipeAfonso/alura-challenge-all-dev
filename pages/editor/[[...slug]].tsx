@@ -128,7 +128,12 @@ const Editor: NextPage = () => {
               tabIndex={3}
               fullWidth
             />
-            <ColorPicker onChange={color => setColor(color)} />
+            <ColorPicker
+              textFieldProps={{
+                inputProps: { 'data-testid': 'project_color' },
+              }}
+              onChange={color => setColor(color)}
+            />
             <Button
               variant="contained"
               color="primary"
