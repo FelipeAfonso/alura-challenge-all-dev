@@ -22,6 +22,7 @@ export const EditorContainer: FC<{
   tabIndex?: number;
 }> = ({ color, editable, language, initialCode, tabIndex }) => {
   const [code, setCode] = useState(initialCode ?? '');
+  const [hovering, setHovering] = useState(false);
   const [moreOptionsOpen, setMoreOptionsOpen] = useState<null | HTMLElement>(
     null
   );
@@ -45,13 +46,15 @@ export const EditorContainer: FC<{
             bgcolor: editable ? '#242424' : '#141414',
           },
         }}
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
       >
         <Box
           mx={2}
           pt={2}
+          height={48}
           display="flex"
-          justifyContent="space-between
-        "
+          justifyContent="space-between"
         >
           <svg width="52" height="12" viewBox="0 0 52 12" fill="none">
             <circle cx="6" cy="6" r="6" fill="#FF5F56" />
@@ -60,6 +63,7 @@ export const EditorContainer: FC<{
           </svg>
           {editable && (
             <IconButton
+              sx={{ display: hovering ? 'block' : 'none' }}
               onClick={e => setMoreOptionsOpen(e.currentTarget)}
               size="small"
             >
@@ -75,7 +79,9 @@ export const EditorContainer: FC<{
               onClick={() => {
                 setMoreOptionsOpen(null);
                 setTimeout(() => {
-                  exportComponentAsJPEG(editorRef);
+                  exportComponentAsJPEG(editorRef, {
+                    html2CanvasOptions: { removeContainer: false },
+                  });
                 }, 1000);
               }}
             >
@@ -85,7 +91,9 @@ export const EditorContainer: FC<{
               onClick={() => {
                 setMoreOptionsOpen(null);
                 setTimeout(() => {
-                  exportComponentAsPNG(editorRef);
+                  exportComponentAsPNG(editorRef, {
+                    html2CanvasOptions: { removeContainer: false },
+                  });
                 }, 1000);
               }}
             >

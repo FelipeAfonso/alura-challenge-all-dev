@@ -173,34 +173,40 @@ import 'ace-builds/src-noconflict/mode-zeek';
 import 'ace-builds/src-noconflict/theme-monokai';
 import { FC } from 'react';
 
-const AceEditorComponent: FC<IAceEditorProps> = props => (
-  <div>
-    <AceEditor
-      mode="javascript"
-      theme="monokai"
-      height="fit-content"
-      width="calc(100% - 24px)"
-      fontSize={16}
-      enableBasicAutocompletion
-      enableSnippets
-      enableLiveAutocompletion
-      {...props}
-      style={{
-        backgroundColor: 'transparent',
-        minHeight: '300px',
-        marginLeft: 12,
-        marginRight: 12,
-        ...props.style,
-      }}
-      setOptions={{
-        showLineNumbers: false,
-        showGutter: false,
-        printMargin: false,
-        fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-        ...props.setOptions,
-      }}
-    />
-  </div>
-);
+const AceEditorComponent: FC<IAceEditorProps> = props => {
+  const lineAmount = props.value?.split('\n').length ?? 0;
+  const heightPrediction = lineAmount * 21.2;
+  const height = heightPrediction < 300 ? 300 : heightPrediction;
+  return (
+    <div>
+      <AceEditor
+        mode="javascript"
+        theme="monokai"
+        height={`${height}px`}
+        width="calc(100% - 24px)"
+        fontSize={16}
+        enableBasicAutocompletion
+        enableSnippets
+        enableLiveAutocompletion
+        {...props}
+        style={{
+          backgroundColor: 'transparent',
+          minHeight: '300px',
+          marginLeft: 12,
+          marginRight: 12,
+          ...props.style,
+        }}
+        setOptions={{
+          showLineNumbers: false,
+          showGutter: false,
+          printMargin: false,
+          fontFamily: 'Roboto Mono, Consolas, "monospaced"',
+
+          ...props.setOptions,
+        }}
+      />
+    </div>
+  );
+};
 
 export default AceEditorComponent;
