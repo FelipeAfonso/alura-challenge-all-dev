@@ -8,12 +8,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { EditorContainer } from 'components/EditorContainer';
 import languages from 'public/languages.json';
 import { useState } from 'react';
 import ColorPicker from 'components/ColorPicker';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+
+const EditorContainer = dynamic(import('components/EditorContainer'), {
+  ssr: false,
+});
 
 const initialCode = `[] == ![]; // -> true
 !!"false" == !!"true"; // -> true

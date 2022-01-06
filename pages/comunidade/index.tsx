@@ -2,12 +2,16 @@ import { NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import { Avatar, Box, Grid, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import { EditorContainer } from 'components/EditorContainer';
 import mockedData from './mockdata.json';
 import { TextBubble } from 'assets/icons/TextBubble';
 import { Heart } from 'assets/icons/Heart';
 import { StackedIconButton } from 'components/StackedIconButton';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+
+const EditorContainer = dynamic(import('components/EditorContainer'), {
+  ssr: false,
+});
 
 export type ProjectData = {
   id: string;
