@@ -70,7 +70,7 @@ const Home: NextPage = () => {
             startIcon={<Google />}
             fullWidth
             onClick={() => {
-              login().then(u => {
+              login('google').then(u => {
                 if (typeof u === 'string' || u instanceof String)
                   console.error('login error');
                 else {
@@ -91,7 +91,17 @@ const Home: NextPage = () => {
             startIcon={<Github />}
             fullWidth
             onClick={() => {
-              console.log('login github');
+              login('github').then(u => {
+                if (typeof u === 'string' || u instanceof String)
+                  console.error('login error');
+                else {
+                  setAuth({
+                    userName: u.displayName ?? u.email ?? '',
+                    picUrl: u.photoURL ?? '',
+                    token: u.refreshToken,
+                  });
+                }
+              });
             }}
           >
             Login com o Github

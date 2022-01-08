@@ -30,6 +30,7 @@ export const EditorContainer: FC<{
   );
   const editorRef = useRef<any>();
   const darkMode = useRecoilValue(darkModeState);
+  const darkmodeColor = darkMode ? '#141414' : '#fafafa';
   return (
     <Paper
       ref={editorRef}
@@ -42,11 +43,15 @@ export const EditorContainer: FC<{
       <Paper
         elevation={5}
         sx={{
-          bgcolor: darkMode ? '#141414' : '#fafafa',
+          bgcolor: darkmodeColor,
           backgroundImage: 'none',
           transition: 'background-color 0.3s ease-in-out',
           '&:hover': {
-            bgcolor: editable ? '#242424' : '#141414',
+            bgcolor: !editable
+              ? darkmodeColor
+              : darkMode
+              ? '#242424'
+              : '#eCECEC',
           },
         }}
         onMouseEnter={() => setHovering(true)}
