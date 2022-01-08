@@ -1,7 +1,9 @@
 import { IconButton, IconButtonProps, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { Box, styled } from '@mui/system';
+import { darkModeState } from 'context/state/layout.atom';
 import { FC } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import { useRecoilValue } from 'recoil';
 
 interface AluraIconAndTextButton extends IconButtonProps {
   label: string;
@@ -11,12 +13,19 @@ interface AluraIconAndTextButton extends IconButtonProps {
 export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
   const { label, children, onClick, ...otherProps } = props;
   const classes = useStyles();
+  const darkMode = useRecoilValue(darkModeState);
   return (
     <Box
       display="flex"
       gap={2}
       alignItems="center"
-      className={props.disabled ? classes.disabledContainer : classes.container}
+      className={
+        !props.disabled
+          ? classes.container
+          : darkMode
+          ? classes.disabledContainer
+          : classes.disabledContainerLight
+      }
       onClick={() => onClick()}
     >
       <IconButton sx={{ borderRadius: 4 }} size="large" {...otherProps}>
@@ -27,7 +36,7 @@ export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   container: {
     cursor: 'pointer',
     '&>button': {
@@ -51,6 +60,12 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
     '&>p': {
       color: '#f2f2f2',
+    },
+  },
+  disabledContainerLight: {
+    cursor: 'pointer',
+    '&>p': {
+      color: '#141414',
     },
   },
 }));

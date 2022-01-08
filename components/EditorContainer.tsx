@@ -8,6 +8,8 @@ import {
   exportComponentAsPNG,
 } from 'react-component-export-image';
 import AceEditorComponent from 'components/AceEditorComponent';
+import { darkModeState } from 'context/state/layout.atom';
+import { useRecoilValue } from 'recoil';
 
 // const AceEditorComponent = dynamic(import('components/AceEditorComponent'), {
 //   ssr: false,
@@ -27,6 +29,7 @@ export const EditorContainer: FC<{
     null
   );
   const editorRef = useRef<any>();
+  const darkMode = useRecoilValue(darkModeState);
   return (
     <Paper
       ref={editorRef}
@@ -39,7 +42,7 @@ export const EditorContainer: FC<{
       <Paper
         elevation={5}
         sx={{
-          bgcolor: '#141414',
+          bgcolor: darkMode ? '#141414' : '#fafafa',
           backgroundImage: 'none',
           transition: 'background-color 0.3s ease-in-out',
           '&:hover': {

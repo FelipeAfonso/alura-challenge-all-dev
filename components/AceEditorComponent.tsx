@@ -171,18 +171,22 @@ import 'ace-builds/src-noconflict/mode-xquery';
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-zeek';
 import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-xcode';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import { FC } from 'react';
+import { useRecoilValue } from 'recoil';
+import { darkModeState } from 'context/state/layout.atom';
 
 const AceEditorComponent: FC<IAceEditorProps> = props => {
   const lineAmount = props.value?.split('\n').length ?? 0;
   const heightPrediction = lineAmount * 21.2;
   const height = heightPrediction < 300 ? 300 : heightPrediction;
+  const darkMode = useRecoilValue(darkModeState);
   return (
     <div>
       <AceEditor
         mode="javascript"
-        theme="monokai"
+        theme={darkMode ? 'monokai' : 'xcode'}
         height={`${height}px`}
         width="calc(100% - 24px)"
         fontSize={16}

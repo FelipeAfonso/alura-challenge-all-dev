@@ -8,6 +8,9 @@ export const lightTheme = createTheme({
       light: '#78a5f8',
       main: '#5081FB',
     },
+    secondary: {
+      main: '#141414',
+    },
     background: {
       default: '#F2F2F2',
     },
@@ -45,14 +48,14 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
-          backgroundColor: '#FFFFFF29',
+          backgroundColor: '#75757529',
           '&:hover': {
             borderRadius: 10,
-            backgroundColor: '#FFFFFF3D',
+            backgroundColor: '#7575753D',
           },
           '&.Mui-focused': {
             borderRadius: 10,
-            backgroundColor: '#FFFFFF3D',
+            backgroundColor: '#7575753D',
           },
         },
       },

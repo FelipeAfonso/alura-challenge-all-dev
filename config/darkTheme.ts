@@ -8,6 +8,9 @@ export const darkTheme = createTheme({
       light: '#78a5f8',
       main: '#5081FB',
     },
+    secondary: {
+      main: '#F2F2F2',
+    },
     background: {
       default: '#051D3B',
       paper: '#141414',

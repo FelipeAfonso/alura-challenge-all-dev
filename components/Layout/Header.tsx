@@ -5,32 +5,41 @@ import {
   Drawer,
   Grid,
   IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
   TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { Close } from 'assets/icons/Close';
+import { DarkMode } from 'assets/icons/DarkMode';
 import { Hamburger } from 'assets/icons/Hamburger';
+import { Logout } from 'assets/icons/Logout';
 import { Search } from 'assets/icons/Search';
+import { logout } from 'context/api/auth';
+import { authState } from 'context/state/auth.atom';
 import { darkModeState } from 'context/state/layout.atom';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import logoDark from 'public/logo_dark.svg';
 import logoLight from 'public/logo_light.svg';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { SearchDialog } from './SearchDialog';
 import { SidebarMenuContent } from './SidebarMenuContent';
 
 export const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const darkMode = useRecoilValue(darkModeState);
+  const [userMenuOpen, setUserMenuOpen] = useState<HTMLElement | null>(null);
+  const [darkMode, setDarkMode] = useRecoilState(darkModeState);
+  const [auth, setAuth] = useRecoilState(authState);
   const logo = darkMode ? logoDark : logoLight;
-
   useHotkeys('f1', () => setSearchOpen(true));
-
+  const router = useRouter();
   return (
     <AppBar
       position="static"
@@ -78,20 +87,65 @@ export const Header = () => {
             justifyContent: 'end',
           }}
         >
-          <Button variant="text" sx={{ textTransform: 'none' }}>
-            <Box
-              gap={2}
-              p={1}
-              display="flex"
-              alignItems="center"
-              flexDirection="row"
+          {auth?.token ? (
+            <>
+              <Button
+                variant="text"
+                sx={{ textTransform: 'none' }}
+                onClick={e => {
+                  if (!userMenuOpen) setUserMenuOpen(e.currentTarget);
+                  else setUserMenuOpen(null);
+                }}
+              >
+                <Box
+                  gap={2}
+                  p={1}
+                  display="flex"
+                  alignItems="center"
+                  flexDirection="row"
+                >
+                  <Avatar sx={{ width: 32, height: 32 }} src={auth!.picUrl} />
+                  <Typography variant="subtitle1" color="textPrimary">
+                    {auth!.userName.split(' ')[0].slice(0, 12)}
+                  </Typography>
+                </Box>
+                <Menu
+                  open={Boolean(userMenuOpen)}
+                  onClose={() => {
+                    setUserMenuOpen(null);
+                  }}
+                  anchorEl={userMenuOpen}
+                >
+                  <MenuItem onClick={() => setDarkMode(!darkMode)}>
+                    <ListItemIcon>
+                      <DarkMode />
+                    </ListItemIcon>
+                    Dark Mode
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logout();
+                      setAuth(undefined);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Logout />
+                    </ListItemIcon>
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="text"
+              onClick={() => {
+                router.push('/login');
+              }}
             >
-              <Avatar sx={{ width: 32, height: 32 }} />
-              <Typography variant="subtitle1" color="textPrimary">
-                Nome
-              </Typography>
-            </Box>
-          </Button>
+              Login
+            </Button>
+          )}
         </Grid>
       </Grid>
       <Box
@@ -122,13 +176,13 @@ export const Header = () => {
           role="search"
           onClick={() => setSearchOpen(true)}
         >
-          <Search fill="#f2f2f2" />
+          <Search />
         </IconButton>
         <IconButton
           sx={{ width: 48, height: 48 }}
           onClick={() => setDrawerOpen(true)}
         >
-          {drawerOpen ? <Close fill="#f2f2f2" /> : <Hamburger fill="#f2f2f2" />}
+          {drawerOpen ? <Close /> : <Hamburger />}
         </IconButton>
         <Drawer
           anchor="right"
