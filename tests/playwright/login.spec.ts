@@ -5,7 +5,7 @@ test.describe('login page', () => {
     await page.goto('/');
 
     const githubButton = page.locator('data-testid=button_login_github');
-    const googleButton = page.locator('data-testid=button_login_gmail');
+    const googleButton = page.locator('data-testid=button_login_google');
 
     expect(githubButton).not.toBeNull();
     expect(googleButton).not.toBeNull();

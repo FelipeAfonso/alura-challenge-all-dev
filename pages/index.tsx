@@ -5,12 +5,25 @@ import { authState } from 'context/state/auth.atom';
 import { useLayout } from 'hooks/useLayout';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import logoDark from 'public/logo_dark.svg';
+import logoLight from 'public/logo_light.svg';
+import { darkModeState } from 'context/state/layout.atom';
+import Image from 'next/image';
+import { Google } from 'assets/icons/Google';
+import { Github } from 'assets/icons/Github';
+import { useRouter } from 'next/router';
+import { Arrow } from 'assets/icons/Arrow';
 
 const Home: NextPage = () => {
   useLayout('none');
+  const darkMode = useRecoilValue(darkModeState);
+  const logo = darkMode ? logoDark : logoLight;
   const [auth, setAuth] = useRecoilState(authState);
+  const router = useRouter();
+
+  if (auth?.token) router.push('/editor');
+
   return (
     <>
       <Head>
@@ -26,16 +39,38 @@ const Home: NextPage = () => {
         />
         <title>Login Alura Dev</title>
       </Head>
+      <Button
+        sx={{ position: 'absolute', top: 15, left: 15 }}
+        onClick={() => router.back()}
+        startIcon={<Arrow />}
+      >
+        Retornar
+      </Button>
       <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
         height="100vh"
       >
-        <Stack>
+        <Stack gap={2}>
+          <Box display="block" minWidth={250} mb={2} width="25vw">
+            <Image src={logo} alt="All Dev logo" layout="responsive" />
+          </Box>
+          <Typography
+            variant="body1"
+            color="textPrimary"
+            sx={{ minWidth: 250, maxWidth: '25vw' }}
+          >
+            Entre para a comunidade AluraDev! É só entrar com uma de suas
+            contas:
+          </Typography>
           <Button
+            data-testid="button_login_google"
+            variant="contained"
+            startIcon={<Google />}
+            fullWidth
             onClick={() => {
-              const user = login().then(u => {
+              login().then(u => {
                 if (typeof u === 'string' || u instanceof String)
                   console.error('login error');
                 else {
@@ -50,17 +85,18 @@ const Home: NextPage = () => {
           >
             Login com o Google
           </Button>
-          <Button onClick={() => console.log(auth)}>print state</Button>
-          <Link href="/comunidade" passHref>
-            <Typography sx={{ cursor: 'pointer' }} align="center" variant="h1">
-              Comunidade
-            </Typography>
-          </Link>
-          <Link href="/editor" passHref>
-            <Typography sx={{ cursor: 'pointer' }} align="center" variant="h1">
-              Editor
-            </Typography>
-          </Link>
+          <Button
+            data-testid="button_login_github"
+            variant="contained"
+            startIcon={<Github />}
+            fullWidth
+            onClick={() => {
+              console.log('login github');
+            }}
+          >
+            Login com o Github
+          </Button>
+          {/* <Button onClick={() => console.log(auth)}>print state</Button> */}
         </Stack>
       </Box>
     </>

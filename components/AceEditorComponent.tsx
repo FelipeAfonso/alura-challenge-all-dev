@@ -171,6 +171,7 @@ import 'ace-builds/src-noconflict/mode-xquery';
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-zeek';
 import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/ext-language_tools';
 import { FC } from 'react';
 
 const AceEditorComponent: FC<IAceEditorProps> = props => {
