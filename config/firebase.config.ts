@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-
+import { getFirestore } from 'firebase/firestore';
 const firebaseConfig = {
   apiKey: 'AIzaSyCVtdmklKCBefOCYzdXvWoxAZO2Mdeaynk',
   authDomain: 'alura-dev.firebaseapp.com',
@@ -14,6 +14,7 @@ if (!getApps().length) {
   initializeApp(firebaseConfig);
 }
 
+export const db = getFirestore();
 export const auth = getAuth();
 
 export default firebaseConfig;
