@@ -15,7 +15,7 @@ import { Github } from 'assets/icons/Github';
 import { useRouter } from 'next/router';
 import { Arrow } from 'assets/icons/Arrow';
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   useLayout('none');
   const darkMode = useRecoilValue(darkModeState);
   const logo = darkMode ? logoDark : logoLight;
@@ -106,11 +106,10 @@ const Home: NextPage = () => {
           >
             Login com o Github
           </Button>
-          {/* <Button onClick={() => console.log(auth)}>print state</Button> */}
         </Stack>
       </Box>
     </>
   );
 };
 
-export default Home;
+export default Login;

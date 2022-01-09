@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import {
   Autocomplete,
@@ -14,6 +14,7 @@ import ColorPicker from 'components/ColorPicker';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { getProjectById, ProjectDataType } from 'context/api/projects';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
@@ -31,10 +32,12 @@ NaN === NaN; // -> false
 !![]       // -> true
 [] == true // -> false`;
 
-const Editor: NextPage = () => {
+const Editor: NextPage<{
+  data?: ProjectDataType;
+}> = ({ data }) => {
+  console.log('🚀 ~ data', data);
   useLayout('default');
   const router = useRouter();
-  const { slug } = router.query;
   const [language, setLanguage] = useState('javascript');
   const [color, setColor] = useState('');
   return (
@@ -156,6 +159,28 @@ const Editor: NextPage = () => {
       </Grid>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  if (context.params?.slug) {
+    const id = Array.isArray(context.params.slug)
+      ? context.params.slug[0]
+      : context.params.slug;
+    const res = await getProjectById(id);
+    const rawData = await res.data();
+    const data = {
+      ...rawData,
+      id: res.id,
+      creationDate: new Date(
+        (rawData as any).creationDate.seconds
+      ).toISOString(),
+    };
+    return {
+      props: {
+        data,
+      },
+    };
+  } else return { props: {} };
 };
 
 export default Editor;

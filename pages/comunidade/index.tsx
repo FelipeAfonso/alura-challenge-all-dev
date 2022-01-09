@@ -1,33 +1,20 @@
-import { NextPage } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import { Avatar, Box, Grid, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import mockedData from './mockdata.json';
 import { TextBubble } from 'assets/icons/TextBubble';
 import { Heart } from 'assets/icons/Heart';
 import { StackedIconButton } from 'components/StackedIconButton';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { getProjectsByPage, ProjectDataType } from 'context/api/projects';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
 });
 
-export type ProjectData = {
-  id: string;
-  title: string;
-  description: string;
-  color: string;
-  language: string;
-  code: string;
-  userName: string;
-  userPicUrl?: string;
-  favoritesCount: number;
-  commentsCount: number;
-};
-
 const Community: NextPage<{
-  data: ProjectData[];
+  data: ProjectDataType[];
 }> = ({ data }) => {
   useLayout('default');
   const router = useRouter();
@@ -54,7 +41,7 @@ const Community: NextPage<{
         spacing={3}
         sx={{ px: { xs: 4, lg: 0 }, mb: 3 }}
       >
-        {(mockedData as ProjectData[]).map(d => (
+        {(data as ProjectDataType[]).map(d => (
           <Grid key={d.id} item xs={12} lg={6}>
             <Box
               display="flex"
@@ -127,6 +114,30 @@ const Community: NextPage<{
       </Grid>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await getProjectsByPage(0);
+  let data: ProjectDataType[] = [];
+  res.forEach(d => {
+    const newEntry = d.data() as ProjectDataType;
+    data = [
+      ...data,
+      {
+        ...newEntry,
+        id: d.id,
+        creationDate: new Date(
+          (newEntry as any).creationDate.seconds
+        ).toISOString(),
+      },
+    ];
+  });
+  return {
+    revalidate: 10,
+    props: {
+      data,
+    },
+  };
 };
 
 export default Community;
