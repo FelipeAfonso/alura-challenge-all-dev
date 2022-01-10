@@ -11,6 +11,7 @@ import { FC, useEffect, useState } from 'react';
 interface ColorPickerProps {
   onChange: (v: string) => void;
   textFieldProps?: TextFieldProps;
+  disabled?: boolean;
 }
 
 const colors = ['#6BD1FF', '#FFC46B', '#FF6BCD', '#6B83FF', '#9AFF6B'];
@@ -21,7 +22,11 @@ const Circle: FC<{ color: string }> = ({ color }) => (
   </svg>
 );
 
-const ColorPicker: FC<ColorPickerProps> = ({ onChange, textFieldProps }) => {
+const ColorPicker: FC<ColorPickerProps> = ({
+  onChange,
+  textFieldProps,
+  disabled,
+}) => {
   const [value, setValue] = useState('#6BD1FF');
 
   useEffect(() => {
@@ -34,6 +39,7 @@ const ColorPicker: FC<ColorPickerProps> = ({ onChange, textFieldProps }) => {
       freeSolo
       options={colors}
       onChange={(_ev, value) => value && setValue(value)}
+      disabled={disabled}
       value={value}
       fullWidth
       renderInput={params => {

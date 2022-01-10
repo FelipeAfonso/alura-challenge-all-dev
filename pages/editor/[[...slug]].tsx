@@ -9,37 +9,58 @@ import {
   Typography,
 } from '@mui/material';
 import languages from 'public/languages.json';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ColorPicker from 'components/ColorPicker';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { getProjectById, ProjectDataType } from 'context/api/projects';
+import { authState } from 'context/state/auth.atom';
+import { useRecoilValue } from 'recoil';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
 });
-
-const initialCode = `[] == ![]; // -> true
-!!"false" == !!"true"; // -> true
-"b" + "a" + +"a" + "a"; // -> 'baNaNa'
-NaN === NaN; // -> false
-(![] + [])[+[]] +
-  (![] + [])[+!+[]] +
-  ([![]] + [][[]])[+!+[] + [+[]]] +
-  (![] + [])[!+[] + !+[]];
-// -> 'fail'
-!![]       // -> true
-[] == true // -> false`;
 
 const Editor: NextPage<{
   data?: ProjectDataType;
 }> = ({ data }) => {
   console.log('🚀 ~ data', data);
   useLayout('default');
-  const router = useRouter();
+
+  const auth = useRecoilValue(authState);
+
+  const [project, setProject] = useState<Partial<ProjectDataType>>({
+    title: '',
+    description: '',
+    code: '',
+    language: '',
+    color: '',
+    ...data,
+  });
+  const [triedToSubmit, setTriedToSubmit] = useState(false);
   const [language, setLanguage] = useState('javascript');
   const [color, setColor] = useState('');
+
+  const errors = useMemo(
+    () =>
+      Object.keys(project).filter(k => !(project as Record<string, string>)[k]),
+    [project]
+  );
+
+  useEffect(() => {
+    if (color) setProject(proj => ({ ...proj, color }));
+  }, [color, setProject]);
+
+  useEffect(() => {
+    if (language) setProject(proj => ({ ...proj, language }));
+  }, [language, setProject]);
+
+  const ableToEdit = useMemo(
+    () =>
+      (!!data?.userName && data.userName === auth?.userName) || !data?.userName,
+    [auth, data]
+  );
+
   return (
     <>
       <Head>
@@ -67,13 +88,15 @@ const Editor: NextPage<{
           <EditorContainer
             color={color}
             language={language ?? 'javascript'}
-            initialCode={initialCode}
+            onChange={code => {
+              setProject({ ...project, code });
+            }}
+            initialCode={project.code}
             tabIndex={0}
-            editable
+            editable={ableToEdit}
           />
         </Grid>
         <Grid item xs={12} lg={4}>
-          {/* <Button onClick={() => setDarkMode(!darkMode)}>Dark Mode</Button> */}
           <Stack gap={2} mb={2}>
             <Typography
               variant="caption"
@@ -87,6 +110,17 @@ const Editor: NextPage<{
               inputProps={{
                 'data-testid': 'project_name',
               }}
+              disabled={!ableToEdit}
+              onChange={e => {
+                setProject({ ...project, title: e.target.value });
+              }}
+              value={project.title}
+              error={!!errors.find(e => e === 'title') && triedToSubmit}
+              helperText={
+                errors.find(e => e === 'title') &&
+                triedToSubmit &&
+                'O título é obrigatório'
+              }
               label="Nome do seu projeto"
               aria-label="Nome do seu projeto"
               role="textbox"
@@ -97,6 +131,17 @@ const Editor: NextPage<{
               inputProps={{
                 'data-testid': 'project_description',
               }}
+              disabled={!ableToEdit}
+              onChange={e => {
+                setProject({ ...project, description: e.target.value });
+              }}
+              error={!!errors.find(e => e === 'description') && triedToSubmit}
+              helperText={
+                errors.find(e => e === 'description') &&
+                triedToSubmit &&
+                'A descrição é obrigatória'
+              }
+              value={project.description}
               label="Descrição do seu projeto"
               aria-label="Descrição do seu projeto"
               role="textbox"
@@ -117,7 +162,12 @@ const Editor: NextPage<{
             <Autocomplete
               disablePortal
               options={languages}
-              onChange={(_ev, value) => value && setLanguage(value)}
+              disabled={!ableToEdit}
+              onChange={(_ev, value) => {
+                if (value) {
+                  setLanguage(value);
+                }
+              }}
               value={language}
               renderInput={params => (
                 <TextField
@@ -127,6 +177,12 @@ const Editor: NextPage<{
                     ...params.inputProps,
                     'data-testid': 'project_language',
                   }}
+                  error={!!errors.find(e => e === 'language') && triedToSubmit}
+                  helperText={
+                    errors.find(e => e === 'language') &&
+                    triedToSubmit &&
+                    'A linguagem é obrigatória'
+                  }
                   aria-label="Linguagem"
                   label="Linguagem"
                   role="textbox"
@@ -136,10 +192,18 @@ const Editor: NextPage<{
               fullWidth
             />
             <ColorPicker
+              disabled={!ableToEdit}
               textFieldProps={{
                 inputProps: { 'data-testid': 'project_color' },
+                error: !!errors.find(e => e === 'color') && triedToSubmit,
+                helperText:
+                  errors.find(e => e === 'color') &&
+                  triedToSubmit &&
+                  'A cor é obrigatória',
               }}
-              onChange={color => setColor(color)}
+              onChange={color => {
+                setColor(color);
+              }}
             />
             <Button
               variant="contained"
@@ -148,6 +212,10 @@ const Editor: NextPage<{
               aria-label="Salvar Projeto"
               role="button"
               sx={{ mt: 2, height: 56 }}
+              onClick={() => {
+                console.log(project);
+                setTriedToSubmit(true);
+              }}
               tabIndex={4}
             >
               <Typography sx={{ color: '#051D3B', textTransform: 'none' }}>
@@ -168,19 +236,22 @@ export const getServerSideProps: GetServerSideProps = async context => {
       : context.params.slug;
     const res = await getProjectById(id);
     const rawData = await res.data();
-    const data = {
-      ...rawData,
-      id: res.id,
-      creationDate: new Date(
-        (rawData as any).creationDate.seconds
-      ).toISOString(),
-    };
-    return {
-      props: {
-        data,
-      },
-    };
-  } else return { props: {} };
+    if (rawData) {
+      const data = {
+        ...rawData,
+        id: res.id,
+        creationDate: new Date(
+          (rawData as any)?.creationDate?.seconds
+        ).toISOString(),
+      };
+      return {
+        props: {
+          data,
+        },
+      };
+    }
+  }
+  return { props: {} };
 };
 
 export default Editor;

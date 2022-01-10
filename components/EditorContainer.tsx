@@ -22,7 +22,8 @@ export const EditorContainer: FC<{
   overflow?: boolean;
   initialCode?: string;
   tabIndex?: number;
-}> = ({ color, editable, language, initialCode, tabIndex }) => {
+  onChange?: (code: string) => void;
+}> = ({ color, editable, language, initialCode, tabIndex, onChange }) => {
   const [code, setCode] = useState(initialCode ?? '');
   const [hovering, setHovering] = useState(false);
   const [moreOptionsOpen, setMoreOptionsOpen] = useState<null | HTMLElement>(
@@ -112,7 +113,10 @@ export const EditorContainer: FC<{
         <AceEditorComponent
           data-testid="code-editor"
           mode={language}
-          onChange={e => setCode(e)}
+          onChange={e => {
+            setCode(e);
+            if (onChange) onChange(e);
+          }}
           value={code}
           readOnly={!editable}
           style={{ cursor: editable ? 'text' : 'pointer' }}
