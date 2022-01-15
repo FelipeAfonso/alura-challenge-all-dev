@@ -1,12 +1,7 @@
 import { IconButton, Menu, MenuItem, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { FC, useRef, useState } from 'react';
-// import dynamic from 'next/dynamic';
 import { More } from 'assets/icons/More';
-import {
-  exportComponentAsJPEG,
-  exportComponentAsPNG,
-} from 'react-component-export-image';
 import AceEditorComponent from 'components/AceEditorComponent';
 import { darkModeState } from 'context/state/layout.atom';
 import { useRecoilValue } from 'recoil';
@@ -26,9 +21,6 @@ export const EditorContainer: FC<{
 }> = ({ color, editable, language, initialCode, tabIndex, onChange }) => {
   const [code, setCode] = useState(initialCode ?? '');
   const [hovering, setHovering] = useState(false);
-  const [moreOptionsOpen, setMoreOptionsOpen] = useState<null | HTMLElement>(
-    null
-  );
   const editorRef = useRef<any>();
   const darkMode = useRecoilValue(darkModeState);
   const darkmodeColor = darkMode ? '#141414' : '#fafafa';
@@ -70,45 +62,6 @@ export const EditorContainer: FC<{
             <circle cx="26" cy="6" r="6" fill="#FFBD2E" />
             <circle cx="46" cy="6" r="6" fill="#27C93F" />
           </svg>
-          {editable && (
-            <IconButton
-              sx={{ display: hovering ? 'block' : 'none' }}
-              onClick={e => setMoreOptionsOpen(e.currentTarget)}
-              size="small"
-            >
-              <More />
-            </IconButton>
-          )}
-          <Menu
-            open={!!moreOptionsOpen}
-            onClose={() => setMoreOptionsOpen(null)}
-            anchorEl={moreOptionsOpen}
-          >
-            <MenuItem
-              onClick={() => {
-                setMoreOptionsOpen(null);
-                setTimeout(() => {
-                  exportComponentAsJPEG(editorRef, {
-                    html2CanvasOptions: { removeContainer: false },
-                  });
-                }, 1000);
-              }}
-            >
-              Exportar para JPG
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setMoreOptionsOpen(null);
-                setTimeout(() => {
-                  exportComponentAsPNG(editorRef, {
-                    html2CanvasOptions: { removeContainer: false },
-                  });
-                }, 1000);
-              }}
-            >
-              Exportar para PNG
-            </MenuItem>
-          </Menu>
         </Box>
         <AceEditorComponent
           data-testid="code-editor"
