@@ -1,14 +1,9 @@
-import { IconButton, Menu, MenuItem, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { FC, useRef, useState } from 'react';
-import { More } from 'assets/icons/More';
 import AceEditorComponent from 'components/AceEditorComponent';
 import { darkModeState } from 'context/state/layout.atom';
 import { useRecoilValue } from 'recoil';
-
-// const AceEditorComponent = dynamic(import('components/AceEditorComponent'), {
-//   ssr: false,
-// });
 
 export const EditorContainer: FC<{
   color: string;
@@ -19,8 +14,10 @@ export const EditorContainer: FC<{
   tabIndex?: number;
   onChange?: (code: string) => void;
 }> = ({ color, editable, language, initialCode, tabIndex, onChange }) => {
-  const [code, setCode] = useState(initialCode ?? '');
-  const [hovering, setHovering] = useState(false);
+  const parsedInitialCode = initialCode
+    ? initialCode.replaceAll('\\n', '\n')
+    : '';
+  const [code, setCode] = useState(parsedInitialCode);
   const editorRef = useRef<any>();
   const darkMode = useRecoilValue(darkModeState);
   const darkmodeColor = darkMode ? '#141414' : '#fafafa';
@@ -47,8 +44,6 @@ export const EditorContainer: FC<{
               : '#eCECEC',
           },
         }}
-        onMouseEnter={() => setHovering(true)}
-        onMouseLeave={() => setHovering(false)}
       >
         <Box
           mx={2}
