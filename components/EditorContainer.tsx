@@ -68,7 +68,7 @@ export const EditorContainer: FC<{
           value={code}
           defaultValue={initialCode}
           readOnly={!editable}
-          style={{ cursor: editable ? 'text' : 'pointer' }}
+          style={{ cursor: editable ? 'text' : 'pointer !important' }}
         />
       </Paper>
     </Paper>

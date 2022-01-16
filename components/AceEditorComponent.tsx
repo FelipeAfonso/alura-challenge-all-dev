@@ -206,9 +206,11 @@ const AceEditorComponent: FC<IAceEditorProps> = props => {
           showGutter: false,
           printMargin: false,
           fontFamily: 'Roboto Mono, Consolas, "monospaced"',
-
+          highlightActiveLine: !props.readOnly,
+          readOnly: props.readOnly,
           ...props.setOptions,
         }}
+        className={props.readOnly ? 'readOnly' : ''}
       />
     </div>
   );
