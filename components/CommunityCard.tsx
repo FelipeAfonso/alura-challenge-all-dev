@@ -1,4 +1,4 @@
-import { Avatar, Stack, Typography } from '@mui/material';
+import { Avatar, Skeleton, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Heart } from 'assets/icons/Heart';
 import { TextBubble } from 'assets/icons/TextBubble';
@@ -14,6 +14,7 @@ import { snackbarState } from 'context/state/snackbar.atom';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
+  loading: () => <Skeleton variant="rectangular" height={300} />,
 });
 
 export const CommunityCard: FC<{

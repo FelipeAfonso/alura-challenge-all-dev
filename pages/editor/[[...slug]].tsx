@@ -8,9 +8,9 @@ import {
   FormControl,
   Grid,
   IconButton,
-  Input,
   InputAdornment,
   InputLabel,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -37,6 +37,7 @@ import ptLocale from 'date-fns/locale/pt-BR';
 import { snackbarState } from 'context/state/snackbar.atom';
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
+  loading: () => <Skeleton variant="rectangular" height={350} />,
 });
 
 const fetchData = async (id: string) => {
