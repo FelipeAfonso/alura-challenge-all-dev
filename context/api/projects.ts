@@ -23,7 +23,7 @@ export type ProjectDataType = {
   uid: string;
   userName: string;
   userPicUrl?: string;
-  favoritesCount: number;
+  favorites: string[];
   comments: {
     creationDate: string;
     text: string;
@@ -66,15 +66,19 @@ export const updateProject = async (project: ProjectDataType) =>
     transaction.update(docRef, project);
   });
 
-export const favoriteProject = async (id: string) =>
+export const favoriteProject = async (projectId: string, uid: string) =>
   await runTransaction(db, async transaction => {
-    const docRef = doc(db, 'projects', id);
+    const docRef = doc(db, 'projects', projectId);
     const existing = await transaction.get(docRef);
     if (!existing.exists()) {
       throw new Error('Project does not exist');
     }
+    const exFavorites: string[] = existing.data().favorites ?? [];
+    const newFavorites = exFavorites.includes(uid)
+      ? exFavorites.filter(f => f !== uid)
+      : [...exFavorites, uid];
     transaction.update(docRef, {
-      favoritesCount: existing.data().favoritesCount + 1,
+      favorites: newFavorites,
     });
   });
 

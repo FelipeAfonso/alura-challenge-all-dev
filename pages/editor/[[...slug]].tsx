@@ -30,12 +30,10 @@ const EditorContainer = dynamic(import('components/EditorContainer'), {
 const Editor: NextPage<{
   data?: ProjectDataType;
 }> = ({ data }) => {
-  console.log('🚀 ~ data', data);
   const router = useRouter();
   useLayout('default');
 
   const auth = useRecoilValue(authState);
-  console.log('🚀 ~ auth', auth);
 
   const userProjectData: Partial<ProjectDataType> = useMemo(
     () => ({

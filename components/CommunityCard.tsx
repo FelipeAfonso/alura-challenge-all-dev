@@ -2,11 +2,14 @@ import { Avatar, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Heart } from 'assets/icons/Heart';
 import { TextBubble } from 'assets/icons/TextBubble';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { StackedIconButton } from 'components/StackedIconButton';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { ProjectDataType } from 'context/api/projects';
+import { favoriteProject, ProjectDataType } from 'context/api/projects';
+import { auth } from 'config/firebase.config';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'context/state/auth.atom';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
@@ -14,7 +17,8 @@ const EditorContainer = dynamic(import('components/EditorContainer'), {
 
 export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
   const router = useRouter();
-
+  const auth = useRecoilValue(authState);
+  const isSameUser = useMemo(() => auth?.uid === d.uid, [auth, d]);
   return (
     <Box
       display="flex"
@@ -58,11 +62,22 @@ export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
           role="button"
           aria-label="Favoritar código"
           data-testid="fav_button"
-          onClick={() => console.log('faved')}
+          disabled={!auth?.uid || isSameUser}
+          onClick={e => {
+            if (auth?.uid && !isSameUser) {
+              e.preventDefault();
+              e.stopPropagation();
+              favoriteProject(d.id, auth!.uid);
+            }
+          }}
         >
-          <Heart fill="#fff" />
+          <Heart
+            fill={
+              auth?.uid && d.favorites?.includes(auth!.uid) ? '#f44336' : '#fff'
+            }
+          />
           <Typography variant="body1" color="textPrimary">
-            {d.favoritesCount ?? 0}
+            {d.favorites?.length ?? 0}
           </Typography>
         </StackedIconButton>
         <Stack

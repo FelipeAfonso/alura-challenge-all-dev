@@ -1,8 +1,11 @@
 import { FC } from 'react';
 import { Stack, StackProps } from '@mui/material';
 
-export const StackedIconButton: FC<StackProps> = props => {
-  const { children, ...otherProps } = props;
+interface StackedIconButtonProps extends StackProps {
+  disabled?: boolean;
+}
+export const StackedIconButton: FC<StackedIconButtonProps> = props => {
+  const { children, disabled, ...otherProps } = props;
   return (
     <Stack
       flexDirection="row"
@@ -11,8 +14,8 @@ export const StackedIconButton: FC<StackProps> = props => {
       p={1}
       borderRadius={2}
       sx={{
-        cursor: 'pointer',
-        '&:hover': { backgroundColor: '#FFFFFF14' },
+        cursor: disabled ? 'default' : 'pointer',
+        '&:hover': disabled ? {} : { backgroundColor: '#FFFFFF14' },
       }}
       {...otherProps}
     >

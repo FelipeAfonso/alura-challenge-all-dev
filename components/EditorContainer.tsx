@@ -17,7 +17,6 @@ export const EditorContainer: FC<{
   const parsedInitialCode = initialCode
     ? initialCode.replaceAll('\\n', '\n')
     : '';
-  console.log('🚀 ~ parsedInitialCode', parsedInitialCode);
   const [code, setCode] = useState(parsedInitialCode);
   const editorRef = useRef<any>();
   const darkMode = useRecoilValue(darkModeState);

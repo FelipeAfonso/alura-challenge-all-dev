@@ -36,8 +36,7 @@ const Community: NextPage<{
     data,
     auth?.uid ?? ''
   );
-  console.log('🚀 ~ userProjects', userProjects);
-  console.log('🚀 ~ otherProjects', otherProjects);
+
   return (
     <>
       <Head>
