@@ -2,7 +2,7 @@
 
 This project was a challenge by Alura, and it was developed in 4 weeks through december'21 and january'22. The goal is to create an online code editor that is able to share user projects in a community. My extra goals were to implement SSR and Hybrid Data Fetching with Next.js, expand my testing skills with playwright, and to learn firebase auth, firestore and recoil!
 
-![project gif preview](https://i.imgur.com/HjEG9cd.gif)
+<img src="/public/preview.gif?raw=true" width="400px">
 
 ## The highlights
 
