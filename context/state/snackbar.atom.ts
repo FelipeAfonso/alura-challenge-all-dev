@@ -7,6 +7,7 @@ export type SnackbarStateType =
     }
   | undefined;
 
+// this is the brain behind the global snackbar
 export const snackbarState = atom<SnackbarStateType>({
   key: 'snackbarState',
   default: undefined,

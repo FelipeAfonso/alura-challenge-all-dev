@@ -8,6 +8,8 @@ import { useRecoilValue } from 'recoil';
 import { authState } from 'context/state/auth.atom';
 import { useEffect, useState } from 'react';
 
+// this function split the projects between those owned by the logged user
+// and the other projects. It could also be expanded to filter by favorited aswell
 const filterProjectDataByUser = (projects: ProjectDataType[], uid: string) =>
   projects
     .sort((a, b) =>
@@ -27,6 +29,8 @@ const filterProjectDataByUser = (projects: ProjectDataType[], uid: string) =>
       [[], []] as [ProjectDataType[], ProjectDataType[]]
     );
 
+// this function is the wrapper for the projects data fetching
+// and manipulation, as the id is not integrated in the raw data
 const fetchData = async () => {
   const res = await getProjectsByPage(0);
   let data: ProjectDataType[] = [];
@@ -42,18 +46,25 @@ const fetchData = async () => {
   });
   return data;
 };
+
 const Community: NextPage<{
   data: ProjectDataType[];
 }> = ({ data }) => {
   useLayout('default');
   const auth = useRecoilValue(authState);
+
+  // these two states are used to implement hybrid data fetching
+  // as SSR is not able to invalidate data that was manipulated
+  // by itself, so on specific events, we trigger a new fetch
   const [hybridData, setHybridData] = useState(data);
   const [isDataStateInvalid, setIsDataStateInvalid] = useState(false);
+
   const [userProjects, otherProjects] = filterProjectDataByUser(
     hybridData,
     auth?.uid ?? ''
   );
 
+  // this hook fires a refetch when an invalidation is declared
   useEffect(() => {
     if (isDataStateInvalid)
       fetchData().then(data => {

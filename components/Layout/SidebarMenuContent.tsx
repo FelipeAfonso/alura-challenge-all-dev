@@ -15,6 +15,10 @@ import { logout } from 'context/api/auth';
 export const SidebarMenuContent: FC<{
   drawer?: boolean;
 }> = ({ drawer }) => {
+  // this controls the sidebar content, and
+  // the same problem with the header component
+  // is observed here
+
   const router = useRouter();
   const [darkMode, setDarkMode] = useRecoilState(darkModeState);
   const [auth, setAuth] = useRecoilState(authState);
@@ -44,6 +48,7 @@ export const SidebarMenuContent: FC<{
         Login
       </Button>
     );
+
   const Options = () => (
     <Stack>
       <Button

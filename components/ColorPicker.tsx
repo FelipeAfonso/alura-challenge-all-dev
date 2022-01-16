@@ -29,6 +29,13 @@ const ColorPicker: FC<ColorPickerProps> = ({
   disabled,
   initialValue,
 }) => {
+  // this is the default color picker, it uses an autocomplete
+  // as the base, using an icon adornment to show the selected color
+  // I chose to use this instead of an already stabilished color picker
+  // due to lack of need to pick a pixel perfect color by hand, and if
+  // that is the case, the user can still paste the hexcode he wants,
+  // or even use css color tags!
+
   const [value, setValue] = useState(initialValue ?? '#6BD1FF');
 
   useEffect(() => {
@@ -38,6 +45,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
   useEffect(() => {
     setValue(initialValue ?? '#6BD1FF');
   }, [initialValue]);
+
   return (
     <Autocomplete
       disablePortal

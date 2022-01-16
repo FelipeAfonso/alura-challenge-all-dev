@@ -1,9 +1,14 @@
-import { Alert, Snackbar, SnackbarProps } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 import { snackbarState } from 'context/state/snackbar.atom';
 import { FC } from 'react';
 import { useRecoilState } from 'recoil';
 
-export const SnackbarProvider: FC<SnackbarProps> = props => {
+export const SnackbarProvider: FC = () => {
+  // this is a global snackbar component
+  // it is imported in the layout component
+  // and it listens to the snackbar state
+  // in order to show the snackbar messages!
+
   const [snackbar, setSnackbar] = useRecoilState(snackbarState);
   return (
     <Snackbar

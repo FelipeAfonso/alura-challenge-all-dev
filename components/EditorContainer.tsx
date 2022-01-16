@@ -14,6 +14,11 @@ export const EditorContainer: FC<{
   tabIndex?: number;
   onChange?: (code: string) => void;
 }> = ({ color, editable, language, initialCode, tabIndex, onChange }) => {
+  // this is the background editor wrapper. As the layout
+  // of the editors is always in front of a colorful background
+  // it also allows for some customization of the editor
+  // and some events to be triggered
+
   const parsedInitialCode = initialCode
     ? initialCode.replaceAll('\\n', '\n')
     : '';

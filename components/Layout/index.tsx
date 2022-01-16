@@ -20,6 +20,10 @@ export const Layout: FC<{ testMode?: boolean }> = ({ children, testMode }) => {
 
   const theme = darkMode ? darkTheme : lightTheme;
 
+  // this component is controlled by the layout state
+  // and also serves the function of controlling the
+  // app theme
+
   const defaultLayout = (
     <>
       <Header />

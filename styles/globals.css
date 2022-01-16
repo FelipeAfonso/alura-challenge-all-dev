@@ -18,6 +18,7 @@ a {
   box-sizing: border-box;
 }
 
+/* this overwrites the ace editor to show a pointer cursor when it's readonly */
 .readOnly > .ace_scroller {
   cursor: pointer !important;
 }

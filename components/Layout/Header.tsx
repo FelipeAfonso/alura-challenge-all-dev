@@ -32,13 +32,22 @@ import { SearchDialog } from './SearchDialog';
 import { SidebarMenuContent } from './SidebarMenuContent';
 
 export const Header = () => {
+  // this is the header component, it controls the header
+  // layout based on device width, and as the layout uses
+  // components in different places depending on width
+  // you can see some rendundancies
+
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState<HTMLElement | null>(null);
   const [darkMode, setDarkMode] = useRecoilState(darkModeState);
   const [auth, setAuth] = useRecoilState(authState);
   const logo = darkMode ? logoDark : logoLight;
+
+  // this is a hook that allows you to use the keyboard
+  // to navigate the app!
   useHotkeys('f1', () => setSearchOpen(true));
+
   const router = useRouter();
   return (
     <AppBar

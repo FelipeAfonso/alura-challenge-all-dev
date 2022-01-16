@@ -21,6 +21,10 @@ export const CommunityCard: FC<{
   d: ProjectDataType;
   onInvalidate?: () => void;
 }> = ({ d, onInvalidate }) => {
+  // this is the card wrapper for the community projects
+  // it uses the ace-editor as the centerpiece, and allows
+  // some customization of the selected project details by itself
+
   const router = useRouter();
   const auth = useRecoilValue(authState);
   const setSnackbar = useSetRecoilState(snackbarState);

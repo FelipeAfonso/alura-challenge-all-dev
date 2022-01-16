@@ -178,6 +178,10 @@ import { useRecoilValue } from 'recoil';
 import { darkModeState } from 'context/state/layout.atom';
 
 const AceEditorComponent: FC<IAceEditorProps> = props => {
+  // this big dumb component is the needed react-ace-editor wrapper
+  // for Next.js support. It initializes as a client-side only component
+  // due to the library limitations.
+
   const lineAmount = props.value?.split('\n').length ?? 0;
   const heightPrediction = lineAmount * 21.2;
   const height = heightPrediction < 300 ? 300 : heightPrediction;

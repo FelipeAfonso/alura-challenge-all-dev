@@ -40,6 +40,8 @@ const EditorContainer = dynamic(import('components/EditorContainer'), {
   loading: () => <Skeleton variant="rectangular" height={350} />,
 });
 
+// this function is the wrapper for the get project by id fetching
+// and manipulation, as the id is not integrated in the raw data
 const fetchData = async (id: string) => {
   const res = await getProjectById(id);
   const rawData = await res.data();
@@ -53,11 +55,13 @@ const fetchData = async (id: string) => {
 const Editor: NextPage<{
   data?: ProjectDataType;
 }> = ({ data }) => {
-  const router = useRouter();
   useLayout('default');
+  const router = useRouter();
   const setSnackbar = useSetRecoilState(snackbarState);
   const auth = useRecoilValue(authState);
   const darkMode = useRecoilValue(darkModeState);
+
+  // this memo translate the static project data based on the user
   const userProjectData: Partial<ProjectDataType> = useMemo(
     () => ({
       userName: auth?.userName,
@@ -77,13 +81,18 @@ const Editor: NextPage<{
     ...initialProjectState,
     ...data,
   });
+  // these two states are used to implement hybrid data fetching
+  // as SSR is not able to invalidate data that was manipulated
+  // by itself, so on specific events, we trigger a new fetch
   const [hybridData, setHybridData] = useState(data);
   const [isDataInvalid, setIsDataInvalid] = useState(false);
+
   const [commentary, setCommentary] = useState('');
   const [triedToSubmit, setTriedToSubmit] = useState(false);
   const [language, setLanguage] = useState('javascript');
   const [color, setColor] = useState('');
 
+  // this memo is responsible to detect for empty required fields
   const errors = useMemo(
     () =>
       Object.keys(project).filter(k => !(project as Record<string, string>)[k]),
@@ -104,6 +113,7 @@ const Editor: NextPage<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setProject]);
 
+  // this hook fires a refetch when an invalidation is declared
   useEffect(() => {
     if (isDataInvalid && data?.id)
       fetchData(data.id).then(data => {
@@ -112,6 +122,7 @@ const Editor: NextPage<{
       });
   }, [setHybridData, data?.id, isDataInvalid]);
 
+  // this memo is responsible for checking the user ability to edit the project data
   const ableToEdit = useMemo(
     () => (!!data?.uid && data.uid === auth?.uid) || !data?.uid,
     [auth, data]
@@ -176,6 +187,7 @@ const Editor: NextPage<{
                         <InputAdornment position="end">
                           <IconButton
                             onClick={async () => {
+                              // this is the submit commentary logic
                               if (commentary.length) {
                                 try {
                                   await commentProject(
@@ -371,12 +383,17 @@ const Editor: NextPage<{
                 role="button"
                 sx={{ mt: 2, height: 56 }}
                 onClick={async () => {
+                  // this is the form saving logic
+                  // firstly if the user is not logged it redirects to the login page
                   if (!auth?.token) {
                     router.push('/login');
                     return;
                   }
+
+                  // if not it activates the error memo to show required fields
                   setTriedToSubmit(true);
 
+                  // this if detects if it should be an update or a new project
                   if (ableToEdit && data?.id && !errors.length && auth?.token) {
                     const projectData = {
                       ...data,

@@ -11,6 +11,9 @@ interface AluraIconAndTextButton extends IconButtonProps {
 }
 
 export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
+  // this component wraps the iconic sidebar layout for the
+  // navigation buttons on the layout, but it can be used anywhere
+
   const { label, children, onClick, ...otherProps } = props;
   const classes = useStyles();
   const darkMode = useRecoilValue(darkModeState);

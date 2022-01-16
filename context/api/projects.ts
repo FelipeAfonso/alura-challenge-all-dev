@@ -3,7 +3,6 @@ import {
   addDoc,
   collection,
   doc,
-  endAt,
   getDoc,
   getDocs,
   limit,
@@ -33,8 +32,13 @@ export type ProjectDataType = {
   creationDate: string;
 };
 
+// this is the ref for the collection, used extensively through this file
 const projectsRef = collection(db, 'projects');
 
+// the following functions are the CUD for the projects collection
+// there is no project removal designed, so it wasn't implemented
+
+// pagination is already built in, in case it's needed
 export const getProjectsByPage = async (page: number) => {
   const pageSize = 20;
   const pageStart = page * pageSize;
@@ -73,6 +77,8 @@ export const favoriteProject = async (projectId: string, uid: string) =>
     if (!existing.exists()) {
       throw new Error('Project does not exist');
     }
+    // this checks if the user is already in the favorites array
+    // and flip it accordingly
     const exFavorites: string[] = existing.data().favorites ?? [];
     const newFavorites = exFavorites.includes(uid)
       ? exFavorites.filter(f => f !== uid)

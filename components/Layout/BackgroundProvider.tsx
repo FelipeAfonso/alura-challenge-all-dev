@@ -4,6 +4,8 @@ import { useTheme } from '@mui/material';
 
 export const BackgroundProvider: FC = ({ children }) => {
   const theme = useTheme();
+  // this component allows mUI to control the background color
+  // of the whole app
   return (
     <Box
       component="div"

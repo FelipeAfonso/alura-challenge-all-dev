@@ -12,6 +12,7 @@ export type AuthStateType =
     }
   | undefined;
 
+//this atom controls the authentication state
 export const authState = atom<AuthStateType>({
   key: 'authState',
   default: undefined,

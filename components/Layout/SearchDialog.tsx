@@ -5,8 +5,11 @@ export const SearchDialog: FC<{
   onClose: () => void;
   open: boolean;
 }> = ({ open, onClose }) => {
+  // this is the open search dialog!
+
   const textFieldRef = useRef<any>(null);
 
+  // this useEffect is to focus the text field when the dialog opens
   useEffect(() => {
     setTimeout(() => {
       if (open) textFieldRef.current?.focus();
