@@ -16,7 +16,10 @@ const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
 });
 
-export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
+export const CommunityCard: FC<{
+  d: ProjectDataType;
+  onInvalidate?: () => void;
+}> = ({ d, onInvalidate }) => {
   const router = useRouter();
   const auth = useRecoilValue(authState);
   const setSnackbar = useSetRecoilState(snackbarState);
@@ -74,6 +77,7 @@ export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
                   message: 'Projeto favoritado com sucesso!',
                   type: 'success',
                 });
+                if (onInvalidate) onInvalidate();
               } catch (e) {
                 setSnackbar({
                   message: 'Falha ao favoritar o projeto :(',

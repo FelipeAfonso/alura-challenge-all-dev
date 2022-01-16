@@ -6,6 +6,7 @@ import { getProjectsByPage, ProjectDataType } from 'context/api/projects';
 import { CommunityCard } from 'components/CommunityCard';
 import { useRecoilValue } from 'recoil';
 import { authState } from 'context/state/auth.atom';
+import { useEffect, useState } from 'react';
 
 const filterProjectDataByUser = (projects: ProjectDataType[], uid: string) =>
   projects
@@ -26,16 +27,40 @@ const filterProjectDataByUser = (projects: ProjectDataType[], uid: string) =>
       [[], []] as [ProjectDataType[], ProjectDataType[]]
     );
 
+const fetchData = async () => {
+  const res = await getProjectsByPage(0);
+  let data: ProjectDataType[] = [];
+  res.forEach(d => {
+    const newEntry = d.data() as ProjectDataType;
+    data = [
+      ...data,
+      {
+        ...newEntry,
+        id: d.id,
+      },
+    ];
+  });
+  return data;
+};
 const Community: NextPage<{
   data: ProjectDataType[];
 }> = ({ data }) => {
   useLayout('default');
   const auth = useRecoilValue(authState);
-
+  const [hybridData, setHybridData] = useState(data);
+  const [isDataStateInvalid, setIsDataStateInvalid] = useState(false);
   const [userProjects, otherProjects] = filterProjectDataByUser(
-    data,
+    hybridData,
     auth?.uid ?? ''
   );
+
+  useEffect(() => {
+    if (isDataStateInvalid)
+      fetchData().then(data => {
+        setHybridData(data);
+        setIsDataStateInvalid(false);
+      });
+  }, [isDataStateInvalid]);
 
   return (
     <>
@@ -62,7 +87,10 @@ const Community: NextPage<{
             <Grid container spacing={3}>
               {(userProjects as ProjectDataType[]).map(d => (
                 <Grid key={d.id} item xs={12} lg={6}>
-                  <CommunityCard d={d} />
+                  <CommunityCard
+                    d={d}
+                    onInvalidate={() => setIsDataStateInvalid(true)}
+                  />
                 </Grid>
               ))}
             </Grid>
@@ -79,7 +107,10 @@ const Community: NextPage<{
         <Grid container spacing={3}>
           {(otherProjects as ProjectDataType[]).map(d => (
             <Grid key={d.id} item xs={12} lg={6}>
-              <CommunityCard d={d} />
+              <CommunityCard
+                d={d}
+                onInvalidate={() => setIsDataStateInvalid(true)}
+              />
             </Grid>
           ))}
         </Grid>
@@ -89,18 +120,7 @@ const Community: NextPage<{
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await getProjectsByPage(0);
-  let data: ProjectDataType[] = [];
-  res.forEach(d => {
-    const newEntry = d.data() as ProjectDataType;
-    data = [
-      ...data,
-      {
-        ...newEntry,
-        id: d.id,
-      },
-    ];
-  });
+  const data = await fetchData();
   return {
     revalidate: 15,
     props: {
