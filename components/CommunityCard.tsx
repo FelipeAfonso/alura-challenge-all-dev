@@ -8,8 +8,9 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { favoriteProject, ProjectDataType } from 'context/api/projects';
 import { auth } from 'config/firebase.config';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authState } from 'context/state/auth.atom';
+import { snackbarState } from 'context/state/snackbar.atom';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
@@ -18,6 +19,7 @@ const EditorContainer = dynamic(import('components/EditorContainer'), {
 export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
   const router = useRouter();
   const auth = useRecoilValue(authState);
+  const setSnackbar = useSetRecoilState(snackbarState);
   const isSameUser = useMemo(() => auth?.uid === d.uid, [auth, d]);
   return (
     <Box
@@ -62,11 +64,22 @@ export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
           aria-label="Favoritar código"
           data-testid="fav_button"
           disabled={!auth?.uid || isSameUser}
-          onClick={e => {
+          onClick={async e => {
             if (auth?.uid && !isSameUser) {
               e.preventDefault();
               e.stopPropagation();
-              favoriteProject(d.id, auth!.uid);
+              try {
+                await favoriteProject(d.id, auth!.uid);
+                setSnackbar({
+                  message: 'Projeto favoritado com sucesso!',
+                  type: 'success',
+                });
+              } catch (e) {
+                setSnackbar({
+                  message: 'Falha ao favoritar o projeto :(',
+                  type: 'error',
+                });
+              }
             }
           }}
         >

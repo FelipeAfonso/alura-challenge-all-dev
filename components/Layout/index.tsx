@@ -12,6 +12,7 @@ import { useRecoilValue } from 'recoil';
 import { BackgroundProvider } from './BackgroundProvider';
 import { Header } from './Header';
 import { SidebarMenuContent } from './SidebarMenuContent';
+import { SnackbarProvider } from './SnackbarProvider';
 
 export const Layout: FC<{ testMode?: boolean }> = ({ children, testMode }) => {
   const layout = useRecoilValue(layoutState);
@@ -35,6 +36,7 @@ export const Layout: FC<{ testMode?: boolean }> = ({ children, testMode }) => {
         </Grid>
         {children}
       </Grid>
+      <SnackbarProvider />
       <Box sx={{ display: { xs: 'flex', lg: 'none' } }}>{children}</Box>
     </>
   );

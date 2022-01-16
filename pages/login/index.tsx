@@ -5,7 +5,7 @@ import { authState } from 'context/state/auth.atom';
 import { useLayout } from 'hooks/useLayout';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import logoDark from 'public/logo_dark.svg';
 import logoLight from 'public/logo_light.svg';
 import { darkModeState } from 'context/state/layout.atom';
@@ -14,10 +14,12 @@ import { Google } from 'assets/icons/Google';
 import { Github } from 'assets/icons/Github';
 import { useRouter } from 'next/router';
 import { Arrow } from 'assets/icons/Arrow';
+import { snackbarState } from 'context/state/snackbar.atom';
 
 const Login: NextPage = () => {
   useLayout('none');
   const darkMode = useRecoilValue(darkModeState);
+  const setSnackbar = useSetRecoilState(snackbarState);
   const logo = darkMode ? logoDark : logoLight;
   const [auth, setAuth] = useRecoilState(authState);
   const router = useRouter();
@@ -72,8 +74,15 @@ const Login: NextPage = () => {
             onClick={() => {
               login('google').then(u => {
                 if (typeof u === 'string' || u instanceof String)
-                  console.error('login error');
+                  setSnackbar({
+                    message: 'Erro ao realizar login :(',
+                    type: 'error',
+                  });
                 else {
+                  setSnackbar({
+                    message: 'Login realizado com sucesso!',
+                    type: 'success',
+                  });
                   setAuth({
                     userName: u.displayName ?? u.email ?? '',
                     picUrl: u.photoURL ?? '',
@@ -94,8 +103,15 @@ const Login: NextPage = () => {
             onClick={() => {
               login('github').then(u => {
                 if (typeof u === 'string' || u instanceof String)
-                  console.error('login error');
+                  setSnackbar({
+                    message: 'Erro ao realizar login :(',
+                    type: 'error',
+                  });
                 else {
+                  setSnackbar({
+                    message: 'Login realizado com sucesso!',
+                    type: 'success',
+                  });
                   setAuth({
                     userName: u.displayName ?? u.email ?? '',
                     picUrl: u.photoURL ?? '',

@@ -27,13 +27,14 @@ import {
   updateProject,
 } from 'context/api/projects';
 import { authState } from 'context/state/auth.atom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { addProject } from 'context/api/projects';
 import { useRouter } from 'next/router';
 import { Send } from 'assets/icons/Send';
 import { darkModeState } from 'context/state/layout.atom';
 import { formatDistanceToNow } from 'date-fns';
 import ptLocale from 'date-fns/locale/pt-BR';
+import { snackbarState } from 'context/state/snackbar.atom';
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
 });
@@ -43,7 +44,7 @@ const Editor: NextPage<{
 }> = ({ data }) => {
   const router = useRouter();
   useLayout('default');
-
+  const setSnackbar = useSetRecoilState(snackbarState);
   const auth = useRecoilValue(authState);
   const darkMode = useRecoilValue(darkModeState);
   const userProjectData: Partial<ProjectDataType> = useMemo(
@@ -327,7 +328,7 @@ const Editor: NextPage<{
                 aria-label="Salvar Projeto"
                 role="button"
                 sx={{ mt: 2, height: 56 }}
-                onClick={() => {
+                onClick={async () => {
                   if (!auth?.token) {
                     router.push('/login');
                     return;
@@ -341,16 +342,40 @@ const Editor: NextPage<{
                       ...userProjectData,
                       creationDate: new Date().toISOString(),
                     } as ProjectDataType;
-                    updateProject(projectData);
-                    router.push('/comunidade');
+                    try {
+                      await updateProject(projectData);
+                      setSnackbar({
+                        message: 'Projeto atualizado com sucesso!',
+                        type: 'success',
+                      });
+                    } catch (e) {
+                      setSnackbar({
+                        message: 'Falha ao atualizar o projeto :(',
+                        type: 'error',
+                      });
+                    } finally {
+                      router.push('/comunidade');
+                    }
                   } else if (!errors.length && auth?.token) {
                     const projectData = {
                       ...project,
                       ...userProjectData,
                       creationDate: new Date().toISOString(),
                     } as ProjectDataType;
-                    addProject(projectData);
-                    router.push('/comunidade');
+                    try {
+                      await addProject(projectData);
+                      setSnackbar({
+                        message: 'Projeto criado com sucesso!',
+                        type: 'success',
+                      });
+                    } catch (e) {
+                      setSnackbar({
+                        message: 'Falha ao criar o projeto :(',
+                        type: 'error',
+                      });
+                    } finally {
+                      router.push('/comunidade');
+                    }
                   }
                 }}
                 tabIndex={4}
