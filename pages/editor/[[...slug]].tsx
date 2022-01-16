@@ -74,8 +74,8 @@ const Editor: NextPage<{
     title: '',
     description: '',
     code: '',
-    language: '',
-    color: '',
+    language: 'javascript',
+    color: '#6BD1FF',
   };
   const [project, setProject] = useState<Partial<ProjectDataType>>({
     ...initialProjectState,
