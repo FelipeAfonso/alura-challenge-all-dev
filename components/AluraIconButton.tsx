@@ -28,7 +28,12 @@ export const AluraIconAndTextButton: FC<AluraIconAndTextButton> = props => {
       }
       onClick={() => onClick()}
     >
-      <IconButton sx={{ borderRadius: 4 }} size="large" {...otherProps}>
+      <IconButton
+        sx={{ borderRadius: 4 }}
+        size="large"
+        {...otherProps}
+        classes={{ root: classes.button }}
+      >
         {children}
       </IconButton>
       <Typography color="textPrimary">{label}</Typography>
@@ -54,6 +59,14 @@ const useStyles = makeStyles(theme => ({
       '&>p': {
         color: '#d6dfef',
       },
+    },
+  },
+  button: {
+    backgroundColor: 'rgba(80, 129, 251, 0.16) !important',
+    color: '#8291a8',
+    '&:hover': {
+      backgroundColor: 'rgba(80, 129, 251, 0.64) !important',
+      color: '#d6dfef',
     },
   },
   disabledContainer: {
