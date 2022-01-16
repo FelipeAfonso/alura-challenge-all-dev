@@ -16,6 +16,7 @@ export const SidebarMenuContent: FC<{
   drawer?: boolean;
 }> = ({ drawer }) => {
   const router = useRouter();
+  const hasSlug = !!router.query?.slug;
   const [darkMode, setDarkMode] = useRecoilState(darkModeState);
   const [auth, setAuth] = useRecoilState(authState);
 
@@ -92,7 +93,7 @@ export const SidebarMenuContent: FC<{
         onClick={() => router.push('/editor')}
         data-testid="sidebar_editor"
         tabIndex={90}
-        disabled={router.pathname.includes('/editor')}
+        disabled={router.basePath === '/editor' && !hasSlug}
         aria-label="Navegar para o Editor de Código"
         role="link"
         color="primary"
@@ -104,7 +105,7 @@ export const SidebarMenuContent: FC<{
         onClick={() => router.push('/comunidade')}
         data-testid="sidebar_community"
         tabIndex={91}
-        disabled={router.pathname.includes('/comunidade')}
+        disabled={router.basePath === '/comunidade' && !hasSlug}
         color="primary"
         aria-label="Navegar para a Comunidade"
         role="link"

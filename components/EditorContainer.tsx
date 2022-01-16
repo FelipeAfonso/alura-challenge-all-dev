@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import AceEditorComponent from 'components/AceEditorComponent';
 import { darkModeState } from 'context/state/layout.atom';
 import { useRecoilValue } from 'recoil';
@@ -17,10 +17,16 @@ export const EditorContainer: FC<{
   const parsedInitialCode = initialCode
     ? initialCode.replaceAll('\\n', '\n')
     : '';
+
   const [code, setCode] = useState(parsedInitialCode);
   const editorRef = useRef<any>();
   const darkMode = useRecoilValue(darkModeState);
   const darkmodeColor = darkMode ? '#141414' : '#fafafa';
+
+  useEffect(() => {
+    setCode(initialCode?.replaceAll('\\n', '\n') ?? '');
+  }, [initialCode, setCode]);
+
   return (
     <Paper
       ref={editorRef}

@@ -54,12 +54,15 @@ const Editor: NextPage<{
     }),
     [auth]
   );
-  const [project, setProject] = useState<Partial<ProjectDataType>>({
+  const initialProjectState = {
     title: '',
     description: '',
     code: '',
     language: '',
     color: '',
+  };
+  const [project, setProject] = useState<Partial<ProjectDataType>>({
+    ...initialProjectState,
     ...data,
   });
   const [commentary, setCommentary] = useState('');
@@ -82,7 +85,9 @@ const Editor: NextPage<{
   }, [language, setProject]);
 
   useEffect(() => {
-    setProject(proj => ({ ...proj, ...data }));
+    if (data) setProject(proj => ({ ...proj, ...data }));
+    else setProject(initialProjectState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setProject]);
 
   const ableToEdit = useMemo(
