@@ -8,6 +8,7 @@ export type AuthStateType =
       userName: string;
       picUrl: string;
       token: string;
+      uid: string;
     }
   | undefined;
 

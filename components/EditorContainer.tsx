@@ -17,6 +17,7 @@ export const EditorContainer: FC<{
   const parsedInitialCode = initialCode
     ? initialCode.replaceAll('\\n', '\n')
     : '';
+  console.log('🚀 ~ parsedInitialCode', parsedInitialCode);
   const [code, setCode] = useState(parsedInitialCode);
   const editorRef = useRef<any>();
   const darkMode = useRecoilValue(darkModeState);
@@ -66,6 +67,7 @@ export const EditorContainer: FC<{
             if (onChange) onChange(e);
           }}
           value={code}
+          defaultValue={initialCode}
           readOnly={!editable}
           style={{ cursor: editable ? 'text' : 'pointer' }}
         />

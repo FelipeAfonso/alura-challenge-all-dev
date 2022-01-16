@@ -9,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  runTransaction,
   startAt,
 } from 'firebase/firestore';
 
@@ -19,10 +20,16 @@ export type ProjectDataType = {
   color: string;
   language: string;
   code: string;
+  uid: string;
   userName: string;
   userPicUrl?: string;
   favoritesCount: number;
-  commentsCount: number;
+  comments: {
+    creationDate: string;
+    text: string;
+    userName: string;
+    userPicUrl?: string;
+  }[];
   creationDate: string;
 };
 
@@ -48,6 +55,48 @@ export const getAllProjects = async () => await getDocs(projectsRef);
 
 export const addProject = async (project: ProjectDataType) =>
   await addDoc(projectsRef, project);
+
+export const updateProject = async (project: ProjectDataType) =>
+  await runTransaction(db, async transaction => {
+    const docRef = doc(db, 'projects', project.id);
+    const existing = await transaction.get(docRef);
+    if (!existing.exists()) {
+      throw new Error('Project does not exist');
+    }
+    transaction.update(docRef, project);
+  });
+
+export const favoriteProject = async (id: string) =>
+  await runTransaction(db, async transaction => {
+    const docRef = doc(db, 'projects', id);
+    const existing = await transaction.get(docRef);
+    if (!existing.exists()) {
+      throw new Error('Project does not exist');
+    }
+    transaction.update(docRef, {
+      favoritesCount: existing.data().favoritesCount + 1,
+    });
+  });
+
+export const commentProject = async (
+  projectId: string,
+  text: string,
+  userName: string,
+  userPicUrl?: string
+) =>
+  await runTransaction(db, async transaction => {
+    const docRef = doc(db, 'projects', projectId);
+    const existing = await transaction.get(docRef);
+    if (!existing.exists()) {
+      throw new Error('Project does not exist');
+    }
+    transaction.update(docRef, {
+      comments: [
+        ...(existing.data().comments ?? []),
+        { text, userName, userPicUrl },
+      ],
+    });
+  });
 
 export const projectConverter = {
   toFirestore: (project: ProjectDataType) => project,

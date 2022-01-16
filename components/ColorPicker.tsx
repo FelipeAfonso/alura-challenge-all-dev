@@ -12,6 +12,7 @@ interface ColorPickerProps {
   onChange: (v: string) => void;
   textFieldProps?: TextFieldProps;
   disabled?: boolean;
+  initialValue?: string;
 }
 
 const colors = ['#6BD1FF', '#FFC46B', '#FF6BCD', '#6B83FF', '#9AFF6B'];
@@ -26,8 +27,9 @@ const ColorPicker: FC<ColorPickerProps> = ({
   onChange,
   textFieldProps,
   disabled,
+  initialValue,
 }) => {
-  const [value, setValue] = useState('#6BD1FF');
+  const [value, setValue] = useState(initialValue ?? '#6BD1FF');
 
   useEffect(() => {
     onChange(value);

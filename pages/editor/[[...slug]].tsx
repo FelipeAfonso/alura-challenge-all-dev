@@ -13,9 +13,15 @@ import { useEffect, useMemo, useState } from 'react';
 import ColorPicker from 'components/ColorPicker';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { getProjectById, ProjectDataType } from 'context/api/projects';
+import {
+  getProjectById,
+  ProjectDataType,
+  updateProject,
+} from 'context/api/projects';
 import { authState } from 'context/state/auth.atom';
 import { useRecoilValue } from 'recoil';
+import { addProject } from 'context/api/projects';
+import { useRouter } from 'next/router';
 
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
@@ -25,10 +31,20 @@ const Editor: NextPage<{
   data?: ProjectDataType;
 }> = ({ data }) => {
   console.log('🚀 ~ data', data);
+  const router = useRouter();
   useLayout('default');
 
   const auth = useRecoilValue(authState);
+  console.log('🚀 ~ auth', auth);
 
+  const userProjectData: Partial<ProjectDataType> = useMemo(
+    () => ({
+      userName: auth?.userName,
+      userPicUrl: auth?.picUrl,
+      uid: auth?.uid,
+    }),
+    [auth]
+  );
   const [project, setProject] = useState<Partial<ProjectDataType>>({
     title: '',
     description: '',
@@ -55,9 +71,12 @@ const Editor: NextPage<{
     if (language) setProject(proj => ({ ...proj, language }));
   }, [language, setProject]);
 
+  useEffect(() => {
+    setProject(proj => ({ ...proj, ...data }));
+  }, [data, setProject]);
+
   const ableToEdit = useMemo(
-    () =>
-      (!!data?.userName && data.userName === auth?.userName) || !data?.userName,
+    () => (!!data?.uid && data.uid === auth?.uid) || !data?.uid,
     [auth, data]
   );
 
@@ -193,6 +212,7 @@ const Editor: NextPage<{
             />
             <ColorPicker
               disabled={!ableToEdit}
+              initialValue={data?.color}
               textFieldProps={{
                 inputProps: { 'data-testid': 'project_color' },
                 error: !!errors.find(e => e === 'color') && triedToSubmit,
@@ -205,23 +225,56 @@ const Editor: NextPage<{
                 setColor(color);
               }}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              data-testid="project_save"
-              aria-label="Salvar Projeto"
-              role="button"
-              sx={{ mt: 2, height: 56 }}
-              onClick={() => {
-                console.log(project);
-                setTriedToSubmit(true);
-              }}
-              tabIndex={4}
-            >
-              <Typography sx={{ color: '#051D3B', textTransform: 'none' }}>
-                Salvar projeto
-              </Typography>
-            </Button>
+            {ableToEdit && (
+              <Button
+                disabled={!ableToEdit}
+                variant="contained"
+                color={
+                  !auth?.uid || (triedToSubmit && errors.length)
+                    ? 'error'
+                    : 'primary'
+                }
+                data-testid="project_save"
+                aria-label="Salvar Projeto"
+                role="button"
+                sx={{ mt: 2, height: 56 }}
+                onClick={() => {
+                  if (!auth?.token) {
+                    router.push('/login');
+                    return;
+                  }
+                  setTriedToSubmit(true);
+
+                  if (ableToEdit && data?.id && !errors.length && auth?.token) {
+                    const projectData = {
+                      ...data,
+                      ...project,
+                      ...userProjectData,
+                      creationDate: new Date().toISOString(),
+                    } as ProjectDataType;
+                    updateProject(projectData);
+                    router.push('/comunidade');
+                  } else if (!errors.length && auth?.token) {
+                    const projectData = {
+                      ...project,
+                      ...userProjectData,
+                      creationDate: new Date().toISOString(),
+                    } as ProjectDataType;
+                    addProject(projectData);
+                    router.push('/comunidade');
+                  }
+                }}
+                tabIndex={4}
+              >
+                <Typography sx={{ color: '#051D3B', textTransform: 'none' }}>
+                  {ableToEdit && data?.id
+                    ? 'Atualizar projeto'
+                    : auth?.token
+                    ? 'Salvar projeto'
+                    : 'Faça o Login para salvar'}
+                </Typography>
+              </Button>
+            )}
           </Stack>
         </Grid>
       </Grid>
@@ -240,9 +293,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
       const data = {
         ...rawData,
         id: res.id,
-        creationDate: new Date(
-          (rawData as any)?.creationDate?.seconds
-        ).toISOString(),
       };
       return {
         props: {

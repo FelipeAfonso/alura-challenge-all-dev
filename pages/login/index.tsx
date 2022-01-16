@@ -78,6 +78,7 @@ const Login: NextPage = () => {
                     userName: u.displayName ?? u.email ?? '',
                     picUrl: u.photoURL ?? '',
                     token: u.refreshToken,
+                    uid: u.uid,
                   });
                 }
               });
@@ -99,6 +100,7 @@ const Login: NextPage = () => {
                     userName: u.displayName ?? u.email ?? '',
                     picUrl: u.photoURL ?? '',
                     token: u.refreshToken,
+                    uid: u.uid,
                   });
                 }
               });

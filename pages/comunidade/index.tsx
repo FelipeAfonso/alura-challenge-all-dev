@@ -1,23 +1,43 @@
 import { GetStaticProps, NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
-import { Avatar, Box, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Head from 'next/head';
-import { TextBubble } from 'assets/icons/TextBubble';
-import { Heart } from 'assets/icons/Heart';
-import { StackedIconButton } from 'components/StackedIconButton';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 import { getProjectsByPage, ProjectDataType } from 'context/api/projects';
+import { CommunityCard } from 'components/CommunityCard';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'context/state/auth.atom';
 
-const EditorContainer = dynamic(import('components/EditorContainer'), {
-  ssr: false,
-});
+const filterProjectDataByUser = (projects: ProjectDataType[], uid: string) =>
+  projects
+    .sort((a, b) =>
+      new Date(a.creationDate).getTime() < new Date(b.creationDate).getTime()
+        ? 1
+        : -1
+    )
+    .reduce(
+      (acc, project) => {
+        if (project.uid === uid) {
+          acc[0].push(project);
+        } else {
+          acc[1].push(project);
+        }
+        return acc;
+      },
+      [[], []] as [ProjectDataType[], ProjectDataType[]]
+    );
 
 const Community: NextPage<{
   data: ProjectDataType[];
 }> = ({ data }) => {
   useLayout('default');
-  const router = useRouter();
+  const auth = useRecoilValue(authState);
+
+  const [userProjects, otherProjects] = filterProjectDataByUser(
+    data,
+    auth?.uid ?? ''
+  );
+  console.log('🚀 ~ userProjects', userProjects);
+  console.log('🚀 ~ otherProjects', otherProjects);
   return (
     <>
       <Head>
@@ -33,84 +53,37 @@ const Community: NextPage<{
         />
         <title>Comunidade Alura Dev</title>
       </Head>
-      <Grid
-        item
-        container
-        xs={12}
-        lg={9}
-        spacing={3}
-        sx={{ px: { xs: 4, lg: 0 }, mb: 3 }}
-      >
-        {(data as ProjectDataType[]).map(d => (
-          <Grid key={d.id} item xs={12} lg={6}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              bgcolor="#00000029"
-              borderRadius={2}
-              data-testid="project_box"
-              data-id={d.id}
-              aria-label={`Projeto ${d.title}`}
-              role="link"
-              sx={{ cursor: 'pointer' }}
-              onClick={() => router.push(`/editor/${d.id}`)}
+
+      <Grid item xs={12} lg={9} sx={{ px: { xs: 4, lg: 0 }, mb: 3 }}>
+        {userProjects.length && (
+          <>
+            <Typography variant="subtitle2" color="textPrimary" paragraph>
+              Seus Projetos
+            </Typography>
+            <Grid container spacing={3}>
+              {(userProjects as ProjectDataType[]).map(d => (
+                <Grid key={d.id} item xs={12} lg={6}>
+                  <CommunityCard d={d} />
+                </Grid>
+              ))}
+            </Grid>
+            <Typography
+              sx={{ mt: 2 }}
+              variant="subtitle2"
+              color="textPrimary"
+              paragraph
             >
-              <EditorContainer
-                initialCode={d.code}
-                color={d.color}
-                language={d.language}
-                editable={false}
-              />
-              <Stack p={3} gap={1}>
-                <Typography variant="subtitle2" color="textPrimary">
-                  {d.title}
-                </Typography>
-                <Typography variant="body1" color="textPrimary">
-                  {d.description}
-                </Typography>
-              </Stack>
-              <Box display="flex" px={3} mt={1} mb={3} alignItems="center">
-                <StackedIconButton
-                  role="button"
-                  aria-label="Deixe seu comentário"
-                  data-testid="comment_button"
-                  onClick={() => console.log('comment')}
-                >
-                  <TextBubble fill="#fff" />
-                  <Typography variant="body1" color="textPrimary">
-                    {d.commentsCount}
-                  </Typography>
-                </StackedIconButton>
-                <StackedIconButton
-                  role="button"
-                  aria-label="Favoritar código"
-                  data-testid="fav_button"
-                  onClick={() => console.log('faved')}
-                >
-                  <Heart fill="#fff" />
-                  <Typography variant="body1" color="textPrimary">
-                    {d.favoritesCount}
-                  </Typography>
-                </StackedIconButton>
-                <Stack
-                  flexDirection="row"
-                  flex={1}
-                  gap={1}
-                  m={1}
-                  justifyContent="end"
-                  alignItems="center"
-                  role="img"
-                  aria-label={`Imagem do usuário: ${d.userName}`}
-                >
-                  <Avatar sx={{ width: 24, height: 24 }} src={d.userPicUrl} />
-                  <Typography variant="body1" color="textPrimary">
-                    {d.userName}
-                  </Typography>
-                </Stack>
-              </Box>
-            </Box>
-          </Grid>
-        ))}
+              Outros Projetos
+            </Typography>
+          </>
+        )}
+        <Grid container spacing={3}>
+          {(otherProjects as ProjectDataType[]).map(d => (
+            <Grid key={d.id} item xs={12} lg={6}>
+              <CommunityCard d={d} />
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
     </>
   );
@@ -126,14 +99,11 @@ export const getStaticProps: GetStaticProps = async () => {
       {
         ...newEntry,
         id: d.id,
-        creationDate: new Date(
-          (newEntry as any).creationDate.seconds
-        ).toISOString(),
       },
     ];
   });
   return {
-    revalidate: 10,
+    revalidate: 15,
     props: {
       data,
     },
