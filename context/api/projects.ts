@@ -97,7 +97,7 @@ export const commentProject = async (
     transaction.update(docRef, {
       comments: [
         ...(existing.data().comments ?? []),
-        { text, userName, userPicUrl },
+        { text, userName, userPicUrl, creationDate: new Date().toISOString() },
       ],
     });
   });

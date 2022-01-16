@@ -2,8 +2,15 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useLayout } from 'hooks/useLayout';
 import {
   Autocomplete,
+  Avatar,
   Button,
+  FilledInput,
+  FormControl,
   Grid,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
   Stack,
   TextField,
   Typography,
@@ -14,6 +21,7 @@ import ColorPicker from 'components/ColorPicker';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import {
+  commentProject,
   getProjectById,
   ProjectDataType,
   updateProject,
@@ -22,7 +30,10 @@ import { authState } from 'context/state/auth.atom';
 import { useRecoilValue } from 'recoil';
 import { addProject } from 'context/api/projects';
 import { useRouter } from 'next/router';
-
+import { Send } from 'assets/icons/Send';
+import { darkModeState } from 'context/state/layout.atom';
+import { formatDistanceToNow } from 'date-fns';
+import ptLocale from 'date-fns/locale/pt-BR';
 const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
 });
@@ -34,7 +45,7 @@ const Editor: NextPage<{
   useLayout('default');
 
   const auth = useRecoilValue(authState);
-
+  const darkMode = useRecoilValue(darkModeState);
   const userProjectData: Partial<ProjectDataType> = useMemo(
     () => ({
       userName: auth?.userName,
@@ -51,6 +62,7 @@ const Editor: NextPage<{
     color: '',
     ...data,
   });
+  const [commentary, setCommentary] = useState('');
   const [triedToSubmit, setTriedToSubmit] = useState(false);
   const [language, setLanguage] = useState('javascript');
   const [color, setColor] = useState('');
@@ -112,6 +124,80 @@ const Editor: NextPage<{
             tabIndex={0}
             editable={ableToEdit}
           />
+          {data?.id && (
+            <Stack gap={2} my={3}>
+              {auth?.uid && (
+                <Stack direction="row" alignItems="center" gap={1}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      variant="filled"
+                      sx={{ ml: 6 }}
+                      htmlFor="comment-field"
+                    >
+                      Adicione um comentário!
+                    </InputLabel>
+                    <FilledInput
+                      id="comment-field"
+                      value={commentary}
+                      onChange={e => setCommentary(e.target.value)}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <Avatar src={auth!.picUrl} />
+                        </InputAdornment>
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => {
+                              if (commentary.length) {
+                                commentProject(
+                                  data.id,
+                                  commentary,
+                                  auth.userName,
+                                  auth.picUrl
+                                );
+                              }
+                            }}
+                          >
+                            <Send />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Stack>
+              )}
+              {data.comments?.map((comment, i) => (
+                <Stack
+                  key={i}
+                  direction="row"
+                  gap={1}
+                  borderRadius={3}
+                  px={2}
+                  py={1}
+                  alignItems="center"
+                  bgcolor={darkMode ? '#ffffff24' : '#00000024'}
+                >
+                  <Avatar src={comment.userPicUrl} />
+                  <Stack direction="column" gap={0.5}>
+                    <Typography color="textPrimary" variant="body1">
+                      {`${comment.userName} ${
+                        comment.creationDate
+                          ? `- ${formatDistanceToNow(
+                              new Date(comment.creationDate),
+                              { locale: ptLocale }
+                            )}`
+                          : ''
+                      }`}
+                    </Typography>
+                    <Typography color="textPrimary" variant="caption">
+                      {comment.text}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              ))}
+            </Stack>
+          )}
         </Grid>
         <Grid item xs={12} lg={4}>
           <Stack gap={2} mb={2}>

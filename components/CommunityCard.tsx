@@ -51,7 +51,6 @@ export const CommunityCard: FC<{ d: ProjectDataType }> = ({ d }) => {
           role="button"
           aria-label="Deixe seu comentário"
           data-testid="comment_button"
-          onClick={() => console.log('comment')}
         >
           <TextBubble fill="#fff" />
           <Typography variant="body1" color="textPrimary">
