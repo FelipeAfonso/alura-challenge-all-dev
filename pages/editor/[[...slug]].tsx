@@ -39,6 +39,16 @@ const EditorContainer = dynamic(import('components/EditorContainer'), {
   ssr: false,
 });
 
+const fetchData = async (id: string) => {
+  const res = await getProjectById(id);
+  const rawData = await res.data();
+  const data = {
+    ...rawData,
+    id: res.id,
+  };
+  return data as ProjectDataType;
+};
+
 const Editor: NextPage<{
   data?: ProjectDataType;
 }> = ({ data }) => {
@@ -66,6 +76,8 @@ const Editor: NextPage<{
     ...initialProjectState,
     ...data,
   });
+  const [hybridData, setHybridData] = useState(data);
+  const [isDataInvalid, setIsDataInvalid] = useState(false);
   const [commentary, setCommentary] = useState('');
   const [triedToSubmit, setTriedToSubmit] = useState(false);
   const [language, setLanguage] = useState('javascript');
@@ -90,6 +102,14 @@ const Editor: NextPage<{
     else setProject(initialProjectState);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setProject]);
+
+  useEffect(() => {
+    if (isDataInvalid && data?.id)
+      fetchData(data.id).then(data => {
+        setHybridData(data);
+        setIsDataInvalid(false);
+      });
+  }, [setHybridData, data?.id, isDataInvalid]);
 
   const ableToEdit = useMemo(
     () => (!!data?.uid && data.uid === auth?.uid) || !data?.uid,
@@ -154,14 +174,22 @@ const Editor: NextPage<{
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
-                            onClick={() => {
+                            onClick={async () => {
                               if (commentary.length) {
-                                commentProject(
-                                  data.id,
-                                  commentary,
-                                  auth.userName,
-                                  auth.picUrl
-                                );
+                                try {
+                                  await commentProject(
+                                    data.id,
+                                    commentary,
+                                    auth.userName,
+                                    auth.picUrl
+                                  );
+                                  setIsDataInvalid(true);
+                                } catch (e) {
+                                  setSnackbar({
+                                    message: 'Erro ao comentar',
+                                    type: 'error',
+                                  });
+                                }
                               }
                             }}
                           >
@@ -173,35 +201,42 @@ const Editor: NextPage<{
                   </FormControl>
                 </Stack>
               )}
-              {data.comments?.map((comment, i) => (
-                <Stack
-                  key={i}
-                  direction="row"
-                  gap={1}
-                  borderRadius={3}
-                  px={2}
-                  py={1}
-                  alignItems="center"
-                  bgcolor={darkMode ? '#ffffff24' : '#00000024'}
-                >
-                  <Avatar src={comment.userPicUrl} />
-                  <Stack direction="column" gap={0.5}>
-                    <Typography color="textPrimary" variant="body1">
-                      {`${comment.userName} ${
-                        comment.creationDate
-                          ? `- ${formatDistanceToNow(
-                              new Date(comment.creationDate),
-                              { locale: ptLocale }
-                            )}`
-                          : ''
-                      }`}
-                    </Typography>
-                    <Typography color="textPrimary" variant="caption">
-                      {comment.text}
-                    </Typography>
+              {hybridData?.comments
+                ?.sort((a, b) =>
+                  new Date(a.creationDate).getTime() <
+                  new Date(b.creationDate).getTime()
+                    ? 1
+                    : -1
+                )
+                .map((comment, i) => (
+                  <Stack
+                    key={i}
+                    direction="row"
+                    gap={1}
+                    borderRadius={3}
+                    px={2}
+                    py={1}
+                    alignItems="center"
+                    bgcolor={darkMode ? '#ffffff24' : '#00000024'}
+                  >
+                    <Avatar src={comment.userPicUrl} />
+                    <Stack direction="column" gap={0.5}>
+                      <Typography color="textPrimary" variant="body1">
+                        {`${comment.userName} ${
+                          comment.creationDate
+                            ? `- ${formatDistanceToNow(
+                                new Date(comment.creationDate),
+                                { locale: ptLocale }
+                              )}`
+                            : ''
+                        }`}
+                      </Typography>
+                      <Typography color="textPrimary" variant="caption">
+                        {comment.text}
+                      </Typography>
+                    </Stack>
                   </Stack>
-                </Stack>
-              ))}
+                ))}
             </Stack>
           )}
         </Grid>
@@ -401,13 +436,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
     const id = Array.isArray(context.params.slug)
       ? context.params.slug[0]
       : context.params.slug;
-    const res = await getProjectById(id);
-    const rawData = await res.data();
-    if (rawData) {
-      const data = {
-        ...rawData,
-        id: res.id,
-      };
+    const data = await fetchData(id);
+    if (data) {
       return {
         props: {
           data,
