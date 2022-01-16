@@ -7,7 +7,6 @@ import { CommunityCard } from 'components/CommunityCard';
 import { useRecoilValue } from 'recoil';
 import { authState } from 'context/state/auth.atom';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 // this function split the projects between those owned by the logged user
 // and the other projects. It could also be expanded to filter by favorited aswell
@@ -53,7 +52,6 @@ const Community: NextPage<{
 }> = ({ data }) => {
   useLayout('default');
   const auth = useRecoilValue(authState);
-  const router = useRouter();
   // these two states are used to implement hybrid data fetching
   // as SSR is not able to invalidate data that was manipulated
   // by itself, so on specific events, we trigger a new fetch
@@ -91,7 +89,7 @@ const Community: NextPage<{
       </Head>
 
       <Grid item xs={12} lg={9} sx={{ px: { xs: 4, lg: 0 }, mb: 3 }}>
-        {userProjects.length && (
+        {userProjects.length ? (
           <>
             <Typography variant="subtitle2" color="textPrimary" paragraph>
               Seus Projetos
@@ -115,7 +113,7 @@ const Community: NextPage<{
               Outros Projetos
             </Typography>
           </>
-        )}
+        ) : null}
         <Grid container spacing={3}>
           {(otherProjects as ProjectDataType[]).map(d => (
             <Grid key={d.id} item xs={12} lg={6}>
