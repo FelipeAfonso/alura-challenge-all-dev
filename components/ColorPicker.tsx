@@ -35,6 +35,9 @@ const ColorPicker: FC<ColorPickerProps> = ({
     onChange(value);
   }, [value, onChange]);
 
+  useEffect(() => {
+    setValue(initialValue ?? '#6BD1FF');
+  }, [initialValue]);
   return (
     <Autocomplete
       disablePortal

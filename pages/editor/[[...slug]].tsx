@@ -184,6 +184,12 @@ const Editor: NextPage<{
                                     auth.picUrl
                                   );
                                   setIsDataInvalid(true);
+                                  setCommentary('');
+                                  setSnackbar({
+                                    message:
+                                      'Comentário adicionado com sucesso!',
+                                    type: 'success',
+                                  });
                                 } catch (e) {
                                   setSnackbar({
                                     message: 'Erro ao comentar',
