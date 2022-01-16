@@ -105,7 +105,11 @@ export const Header = () => {
                   flexDirection="row"
                 >
                   <Avatar sx={{ width: 32, height: 32 }} src={auth!.picUrl} />
-                  <Typography variant="subtitle1" color="textPrimary">
+                  <Typography
+                    variant="subtitle1"
+                    color="textPrimary"
+                    sx={{ textTransform: 'none' }}
+                  >
                     {auth!.userName.split(' ')[0].slice(0, 12)}
                   </Typography>
                 </Box>
